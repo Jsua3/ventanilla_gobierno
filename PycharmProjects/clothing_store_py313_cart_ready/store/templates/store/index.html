@@ -75,6 +75,124 @@
 </section>
 
 <!-- ============================================
+     HERITAGE COLLECTION SLIDER - RALPH LAUREN STYLE
+     ============================================ -->
+<section class="heritage-slider-section">
+    <div class="heritage-slider-container">
+        <!-- Slider Items -->
+        <div class="heritage-slider-wrapper">
+            <!-- Item 1: Premium Corduroy -->
+            <div class="heritage-slider-item active" data-index="0">
+                <div class="heritage-item-content">
+                    <!-- Left Side: Image -->
+                    <div class="heritage-item-image">
+                        <img src="{% static 'images/placeholder-product-1.jpg' %}" alt="Premium Corduroy Collection" class="heritage-img">
+                        <div class="heritage-image-overlay"></div>
+                    </div>
+
+                    <!-- Right Side: Text Content -->
+                    <div class="heritage-item-text">
+                        <div class="heritage-badge reveal-scale">
+                            <i class="fas fa-crown"></i> Colección Exclusiva
+                        </div>
+
+                        <h2 class="heritage-title reveal-on-scroll">
+                            La Excelencia <span class="heritage-highlight">en Textiles</span>
+                        </h2>
+
+                        <p class="heritage-description reveal-on-scroll">
+                            Prendas elaboradas con los mejores materiales, combinando diseño clásico con tecnología de vanguardia. Cada prenda es una declaración de estilo y calidad.
+                        </p>
+
+                        <a href="{% url 'store:product_list' %}" class="btn-heritage-cta reveal-scale">
+                            Descubrir Colección
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Sport & Lifestyle -->
+            <div class="heritage-slider-item" data-index="1">
+                <div class="heritage-item-content">
+                    <!-- Left Side: Image -->
+                    <div class="heritage-item-image">
+                        <img src="{% static 'images/placeholder-product-2.jpg' %}" alt="Sport Lifestyle Collection" class="heritage-img">
+                        <div class="heritage-image-overlay"></div>
+                    </div>
+
+                    <!-- Right Side: Text Content -->
+                    <div class="heritage-item-text">
+                        <div class="heritage-badge reveal-scale">
+                            <i class="fas fa-bolt"></i> Nueva Línea
+                        </div>
+
+                        <h2 class="heritage-title reveal-on-scroll">
+                            Movimiento <span class="heritage-highlight">sin Límites</span>
+                        </h2>
+
+                        <p class="heritage-description reveal-on-scroll">
+                            Diseñada para los que se atreven a vivir diferente. Comodidad extrema que no compromete el estilo en cada paso de tu día.
+                        </p>
+
+                        <a href="{% url 'store:products_kids' %}" class="btn-heritage-cta reveal-scale">
+                            Ver Línea Completa
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: Innovation Series -->
+            <div class="heritage-slider-item" data-index="2">
+                <div class="heritage-item-content">
+                    <!-- Left Side: Image -->
+                    <div class="heritage-item-image">
+                        <img src="{% static 'images/placeholder-product-3.jpg' %}" alt="Innovation Series" class="heritage-img">
+                        <div class="heritage-image-overlay"></div>
+                    </div>
+
+                    <!-- Right Side: Text Content -->
+                    <div class="heritage-item-text">
+                        <div class="heritage-badge reveal-scale">
+                            <i class="fas fa-microchip"></i> Tecnología
+                        </div>
+
+                        <h2 class="heritage-title reveal-on-scroll">
+                            Innovación <span class="heritage-highlight">Textil</span>
+                        </h2>
+
+                        <p class="heritage-description reveal-on-scroll">
+                            Fibras inteligentes que se adaptan a tu cuerpo y clima. Rendimiento deportivo elevado a su máxima expresión.
+                        </p>
+
+                        <a href="{% url 'store:product_list' %}?is_new=true" class="btn-heritage-cta reveal-scale">
+                            Explorar Novedades
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <button class="heritage-nav-btn heritage-nav-prev" id="sliderPrev" aria-label="Slide anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="heritage-nav-btn heritage-nav-next" id="sliderNext" aria-label="Slide siguiente">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Indicators -->
+        <div class="heritage-indicators">
+            <button class="heritage-indicator active" data-index="0" aria-label="Ir al slide 1"></button>
+            <button class="heritage-indicator" data-index="1" aria-label="Ir al slide 2"></button>
+            <button class="heritage-indicator" data-index="2" aria-label="Ir al slide 3"></button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
      NUESTRAS COLECCIONES - PREMIUM CIRCULAR DESIGN
      Ralph Lauren Inspired + Avatar Style
      ============================================ -->
@@ -1331,12 +1449,762 @@ document.addEventListener('DOMContentLoaded', function() {
             this.reset();
         });
     }
+
+    // ============================================
+    // HERITAGE SLIDER FUNCTIONALITY
+    // ============================================
+    const heritageSlider = {
+        currentIndex: 0,
+        totalSlides: 3,
+        autoPlayInterval: null,
+
+        init() {
+            this.setupEventListeners();
+            this.startAutoPlay();
+        },
+
+        setupEventListeners() {
+            // Previous button
+            const prevBtn = document.getElementById('sliderPrev');
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => this.goToPrevious());
+            }
+
+            // Next button
+            const nextBtn = document.getElementById('sliderNext');
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => this.goToNext());
+            }
+
+            // Indicator buttons
+            const indicators = document.querySelectorAll('.heritage-indicator');
+            indicators.forEach((indicator) => {
+                indicator.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    this.goToSlide(index);
+                    this.stopAutoPlay();
+                    this.startAutoPlay();
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    this.goToPrevious();
+                    this.stopAutoPlay();
+                    this.startAutoPlay();
+                }
+                if (e.key === 'ArrowRight') {
+                    this.goToNext();
+                    this.stopAutoPlay();
+                    this.startAutoPlay();
+                }
+            });
+        },
+
+        goToNext() {
+            this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+            this.updateSlider();
+        },
+
+        goToPrevious() {
+            this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+            this.updateSlider();
+        },
+
+        goToSlide(index) {
+            if (index >= 0 && index < this.totalSlides) {
+                this.currentIndex = index;
+                this.updateSlider();
+            }
+        },
+
+        updateSlider() {
+            // Update slide visibility
+            const slides = document.querySelectorAll('.heritage-slider-item');
+            slides.forEach((slide, index) => {
+                if (index === this.currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update indicator styles
+            const indicators = document.querySelectorAll('.heritage-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === this.currentIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        },
+
+        startAutoPlay() {
+            this.autoPlayInterval = setInterval(() => {
+                this.goToNext();
+            }, 6000); // Change slide every 6 seconds
+        },
+
+        stopAutoPlay() {
+            if (this.autoPlayInterval) {
+                clearInterval(this.autoPlayInterval);
+            }
+        },
+
+        destroy() {
+            this.stopAutoPlay();
+        }
+    };
+
+    // Initialize heritage slider
+    heritageSlider.init();
+
+    // Stop autoplay on hover
+    const sliderSection = document.querySelector('.heritage-slider-section');
+    if (sliderSection) {
+        sliderSection.addEventListener('mouseenter', () => {
+            heritageSlider.stopAutoPlay();
+        });
+        sliderSection.addEventListener('mouseleave', () => {
+            heritageSlider.startAutoPlay();
+        });
+    }
 });
 </script>
 {% endblock %}
 
 {% block extra_css %}
 <style>
+/* ============================================
+   HERITAGE SLIDER - RALPH LAUREN INSPIRED DESIGN
+   ============================================ */
+
+.heritage-slider-section {
+    position: relative;
+    width: 100%;
+    min-height: 700px;
+    background: linear-gradient(135deg, #f5f5f0 0%, #eeebe6 100%);
+    overflow: hidden;
+    padding: 0;
+    margin: 4rem 0;
+}
+
+body.dark-mode .heritage-slider-section {
+    background: linear-gradient(135deg, #1a1a18 0%, #222220 100%);
+}
+
+.heritage-slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
+}
+
+.heritage-slider-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
+}
+
+.heritage-slider-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                visibility 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+}
+
+.heritage-slider-item.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+.heritage-item-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+/* Left Side - Image */
+.heritage-item-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.heritage-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.heritage-slider-item.active .heritage-img {
+    animation: zoomIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1.1);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.heritage-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    z-index: 2;
+}
+
+/* Right Side - Text */
+.heritage-item-text {
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    background: linear-gradient(135deg, rgba(245, 245, 240, 0.95), rgba(238, 235, 230, 0.95));
+    position: relative;
+    z-index: 3;
+}
+
+body.dark-mode .heritage-item-text {
+    background: linear-gradient(135deg, rgba(26, 26, 24, 0.95), rgba(34, 34, 32, 0.95));
+}
+
+.heritage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.1), rgba(218, 165, 32, 0.1));
+    border: 1.5px solid rgba(184, 134, 11, 0.3);
+    border-radius: 50px;
+    color: #8B6914;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    width: fit-content;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+}
+
+body.dark-mode .heritage-badge {
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.15), rgba(218, 165, 32, 0.15));
+    border-color: rgba(218, 165, 32, 0.5);
+    color: #DAA520;
+}
+
+.heritage-badge i {
+    font-size: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.heritage-title {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+body.dark-mode .heritage-title {
+    color: #ffffff;
+}
+
+.heritage-highlight {
+    color: #8B6914;
+    font-style: italic;
+}
+
+body.dark-mode .heritage-highlight {
+    color: #DAA520;
+}
+
+.heritage-description {
+    font-size: 1.1rem;
+    color: rgba(26, 26, 26, 0.8);
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+}
+
+body.dark-mode .heritage-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-heritage-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.5s forwards;
+}
+
+.btn-heritage-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: 0;
+}
+
+.btn-heritage-cta:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-heritage-cta > * {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-heritage-cta:hover {
+    background: #0047AB;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0, 71, 171, 0.4);
+}
+
+.btn-heritage-cta i {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-heritage-cta:hover i {
+    transform: translateX(6px);
+}
+
+/* Navigation Buttons */
+.heritage-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(26, 26, 26, 0.7);
+    color: white;
+    border: 2px solid rgba(26, 26, 26, 0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.4s ease;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+}
+
+.heritage-nav-btn:hover {
+    background: rgba(0, 71, 171, 0.9);
+    border-color: var(--warstki-blue);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.heritage-nav-prev {
+    left: 3rem;
+}
+
+.heritage-nav-next {
+    right: 3rem;
+}
+
+body.dark-mode .heritage-nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+body.dark-mode .heritage-nav-btn:hover {
+    background: var(--warstki-blue);
+}
+
+/* Indicators (Dots) */
+.heritage-indicators {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.5rem;
+    z-index: 20;
+}
+
+.heritage-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(26, 26, 26, 0.4);
+    border: 2px solid rgba(26, 26, 26, 0.6);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.heritage-indicator.active {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    width: 40px;
+    border-radius: 10px;
+}
+
+body.dark-mode .heritage-indicator {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode .heritage-indicator.active {
+    background: white;
+    border-color: white;
+}
+
+.heritage-indicator:hover {
+    background: rgba(26, 26, 26, 0.8);
+}
+
+body.dark-mode .heritage-indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - HERITAGE SLIDER
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .heritage-slider-section {
+        min-height: 600px;
+    }
+
+    .heritage-slider-container {
+        min-height: 600px;
+    }
+
+    .heritage-slider-wrapper {
+        min-height: 600px;
+    }
+
+    .heritage-slider-item {
+        min-height: 600px;
+    }
+
+    .heritage-item-text {
+        padding: 4rem 3rem;
+    }
+
+    .heritage-title {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .heritage-nav-prev {
+        left: 2rem;
+    }
+
+    .heritage-nav-next {
+        right: 2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .heritage-slider-section {
+        min-height: 500px;
+    }
+
+    .heritage-slider-container {
+        min-height: 500px;
+    }
+
+    .heritage-slider-wrapper {
+        min-height: 500px;
+    }
+
+    .heritage-slider-item {
+        min-height: 500px;
+    }
+
+    .heritage-item-content {
+        grid-template-columns: 1fr;
+    }
+
+    .heritage-item-image {
+        display: none;
+    }
+
+    .heritage-item-text {
+        background: linear-gradient(135deg, rgba(245, 245, 240, 0.98), rgba(238, 235, 230, 0.98));
+        padding: 3.5rem 2.5rem;
+        justify-content: flex-start;
+        padding-top: 4rem;
+    }
+
+    body.dark-mode .heritage-item-text {
+        background: linear-gradient(135deg, rgba(26, 26, 24, 0.98), rgba(34, 34, 32, 0.98));
+    }
+
+    .heritage-title {
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+    }
+
+    .heritage-nav-prev,
+    .heritage-nav-next {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .heritage-nav-prev {
+        left: 1.5rem;
+    }
+
+    .heritage-nav-next {
+        right: 1.5rem;
+    }
+
+    .heritage-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .heritage-slider-section {
+        min-height: 450px;
+        margin: 3rem 0;
+    }
+
+    .heritage-slider-container {
+        min-height: 450px;
+    }
+
+    .heritage-slider-wrapper {
+        min-height: 450px;
+    }
+
+    .heritage-slider-item {
+        min-height: 450px;
+    }
+
+    .heritage-item-text {
+        padding: 2.5rem 2rem;
+    }
+
+    .heritage-title {
+        font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    }
+
+    .heritage-description {
+        font-size: 0.95rem;
+        max-width: 100%;
+    }
+
+    .btn-heritage-cta {
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .heritage-indicators {
+        bottom: 2rem;
+    }
+
+    .heritage-nav-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .heritage-slider-section {
+        min-height: 400px;
+        margin: 2rem 0;
+    }
+
+    .heritage-slider-container {
+        min-height: 400px;
+    }
+
+    .heritage-slider-wrapper {
+        min-height: 400px;
+    }
+
+    .heritage-slider-item {
+        min-height: 400px;
+    }
+
+    .heritage-item-text {
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .heritage-title {
+        font-size: clamp(1.3rem, 2vw, 1.8rem);
+    }
+
+    .heritage-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .btn-heritage-cta {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        gap: 0.5rem;
+    }
+
+    .heritage-badge {
+        padding: 0.6rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    .heritage-nav-prev,
+    .heritage-nav-next {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    .heritage-nav-prev {
+        left: 1rem;
+    }
+
+    .heritage-nav-next {
+        right: 1rem;
+    }
+
+    .heritage-indicators {
+        bottom: 1.5rem;
+        gap: 1rem;
+    }
+
+    .heritage-indicator {
+        width: 10px;
+        height: 10px;
+    }
+
+    .heritage-indicator.active {
+        width: 32px;
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .heritage-slider-section {
+        min-height: 350px;
+        margin: 1.5rem 0;
+    }
+
+    .heritage-slider-container {
+        min-height: 350px;
+    }
+
+    .heritage-slider-wrapper {
+        min-height: 350px;
+    }
+
+    .heritage-slider-item {
+        min-height: 350px;
+    }
+
+    .heritage-item-text {
+        padding: 1.5rem 1rem;
+        gap: 1rem;
+    }
+
+    .heritage-badge {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.7rem;
+    }
+
+    .heritage-title {
+        font-size: 1.3rem;
+    }
+
+    .heritage-description {
+        font-size: 0.85rem;
+    }
+
+    .btn-heritage-cta {
+        padding: 0.65rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .heritage-nav-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    .heritage-indicators {
+        bottom: 1rem;
+        gap: 0.75rem;
+    }
+
+    .heritage-indicator {
+        width: 8px;
+        height: 8px;
+    }
+
+    .heritage-indicator.active {
+        width: 24px;
+    }
+}
+
 /* ============================================
    BOTÓN CATÁLOGO EXPANDIDO
    ============================================ */
