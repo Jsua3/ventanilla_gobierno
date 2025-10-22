@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator
-from .models import Banner, Category, Product, StoreConfiguration, Video, Service
+from .models import Banner, Category, Product, StoreConfiguration, Video, Service, HeritageSliderItem
 
 def get_store_context():
     """Obtener contexto global de la tienda"""
@@ -29,6 +29,7 @@ def index(request):
         'sale_products': Product.objects.filter(is_sale=True, is_active=True)[:8],
         'featured_categories': Category.objects.filter(is_featured=True, is_active=True)[:6],
         'videos': Video.objects.filter(is_active=True),
+        'heritage_slider_items': HeritageSliderItem.objects.filter(is_active=True).order_by('order'),
     })
     return render(request, 'store/index.html', context)
 

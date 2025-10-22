@@ -442,3 +442,63 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product_name} x{self.quantity} - ${self.subtotal}"
+
+
+class HeritageSliderItem(models.Model):
+    """Items del slider Heritage Collection personalizable desde el admin"""
+
+    # Contenido principal
+    title = models.CharField(max_length=200, verbose_name="Título",
+                            help_text="Ej: La Excelencia")
+    title_highlight = models.CharField(max_length=100, blank=True, verbose_name="Parte Destacada del Título",
+                                      help_text="Ej: en Textiles (se muestra en color diferente)")
+    description = models.TextField(verbose_name="Descripción",
+                                  help_text="Descripción detallada de la colección")
+
+    # Badge
+    badge_text = models.CharField(max_length=100, verbose_name="Texto del Badge",
+                                 help_text="Ej: Colección Exclusiva")
+    badge_icon = models.CharField(max_length=50, default="fas fa-crown", verbose_name="Icono del Badge",
+                                 help_text="Clase de Font Awesome (ej: 'fas fa-crown', 'fas fa-bolt')")
+
+    # CTA (Call to Action)
+    cta_text = models.CharField(max_length=100, verbose_name="Texto del Botón",
+                               default="Descubrir Colección")
+    cta_url = models.CharField(max_length=500, verbose_name="URL del Botón",
+                              help_text="Ej: /productos/ o /categoria/futbol")
+
+    # Multimedia
+    video_url = models.URLField(blank=True, verbose_name="URL del Video",
+                               help_text="URL de YouTube, Vimeo, etc. (opcional)")
+    video_file = models.FileField(upload_to='heritage_videos/', blank=True, verbose_name="Archivo de Video Local",
+                                 help_text="Carga un video MP4 o WebM como alternativa (opcional)")
+    video_thumbnail = models.ImageField(upload_to='heritage_thumbnails/', blank=True,
+                                       verbose_name="Miniatura del Video",
+                                       help_text="Imagen de previsualización del video")
+
+    # Estilos
+    gradient_color_1 = models.CharField(max_length=7, default="#2d5016", verbose_name="Color Gradient 1",
+                                       help_text="Formato hexadecimal: #2d5016")
+    gradient_color_2 = models.CharField(max_length=7, default="#3d6b1f", verbose_name="Color Gradient 2",
+                                       help_text="Formato hexadecimal: #3d6b1f")
+    gradient_color_3 = models.CharField(max_length=7, default="#5a9a3d", verbose_name="Color Gradient 3",
+                                       help_text="Formato hexadecimal: #5a9a3d")
+
+    icon = models.CharField(max_length=50, default="fas fa-shirt", verbose_name="Icono Principal",
+                           help_text="Clase de Font Awesome (ej: 'fas fa-shirt', 'fas fa-person-running')")
+
+    # Control
+    order = models.IntegerField(default=0, verbose_name="Orden",
+                               help_text="Los items se mostrarán en orden ascendente")
+    is_active = models.BooleanField(default=True, verbose_name="Activo")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Item Heritage Slider"
+        verbose_name_plural = "Items Heritage Slider"
+
+    def __str__(self):
+        return f"{self.order}. {self.title}" + (" (Destacado)" if self.title_highlight else "")

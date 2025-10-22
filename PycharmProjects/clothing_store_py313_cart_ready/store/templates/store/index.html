@@ -75,113 +75,62 @@
 </section>
 
 <!-- ============================================
-     HERITAGE COLLECTION SLIDER - RALPH LAUREN STYLE
+     HERITAGE COLLECTION SLIDER - PERSONALIZABLE DESDE EL ADMIN
      ============================================ -->
+{% if heritage_slider_items %}
 <section class="heritage-slider-section">
     <div class="heritage-slider-container">
-        <!-- Slider Items -->
+        <!-- Slider Items - Dinámicos desde el Modelo -->
         <div class="heritage-slider-wrapper">
-            <!-- Item 1: Premium Corduroy -->
-            <div class="heritage-slider-item active" data-index="0">
+            {% for item in heritage_slider_items %}
+            <div class="heritage-slider-item {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}">
                 <div class="heritage-item-content">
-                    <!-- Left Side: Image -->
-                    <div class="heritage-item-image" style="background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 50%, #5a9a3d 100%); display: flex; align-items: center; justify-content: center;">
-                        <div style="text-align: center; color: rgba(255,255,255,0.8);">
-                            <i class="fas fa-shirt" style="font-size: 5rem; margin-bottom: 1.5rem; display: block;"></i>
-                            <p style="font-size: 1.3rem; font-weight: 700; margin: 0;">Premium Corduroy</p>
-                        </div>
+                    <!-- Left Side: Image/Video or Icon -->
+                    <div class="heritage-item-image" style="background: linear-gradient(135deg, {{ item.gradient_color_1 }} 0%, {{ item.gradient_color_2 }} 50%, {{ item.gradient_color_3 }} 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                        <!-- Video si existe -->
+                        {% if item.video_file %}
+                            <video style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;" loop muted autoplay playsinline>
+                                <source src="{{ item.video_file.url }}" type="video/mp4">
+                            </video>
+                        {% elif item.video_url %}
+                            <!-- Embed de YouTube/Vimeo - se puede extender según necesidad -->
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-play" style="font-size: 4rem; color: white; opacity: 0.8;"></i>
+                            </div>
+                        {% endif %}
+
+                        <!-- Icono si no hay video -->
+                        {% if not item.video_file and not item.video_url %}
+                            <div style="text-align: center; color: rgba(255,255,255,0.8); position: relative; z-index: 2;">
+                                <i class="{{ item.icon }}" style="font-size: 5rem; margin-bottom: 1.5rem; display: block;"></i>
+                                <p style="font-size: 1.3rem; font-weight: 700; margin: 0;">{{ item.title }}</p>
+                            </div>
+                        {% endif %}
                         <div class="heritage-image-overlay"></div>
                     </div>
 
                     <!-- Right Side: Text Content -->
                     <div class="heritage-item-text">
                         <div class="heritage-badge reveal-scale">
-                            <i class="fas fa-crown"></i> Colección Exclusiva
+                            <i class="{{ item.badge_icon }}"></i> {{ item.badge_text }}
                         </div>
 
                         <h2 class="heritage-title reveal-on-scroll">
-                            La Excelencia <span class="heritage-highlight">en Textiles</span>
+                            {{ item.title }} {% if item.title_highlight %}<span class="heritage-highlight">{{ item.title_highlight }}</span>{% endif %}
                         </h2>
 
                         <p class="heritage-description reveal-on-scroll">
-                            Prendas elaboradas con los mejores materiales, combinando diseño clásico con tecnología de vanguardia. Cada prenda es una declaración de estilo y calidad.
+                            {{ item.description }}
                         </p>
 
-                        <a href="{% url 'store:product_list' %}" class="btn-heritage-cta reveal-scale">
-                            Descubrir Colección
+                        <a href="{{ item.cta_url }}" class="btn-heritage-cta reveal-scale">
+                            {{ item.cta_text }}
                             <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Item 2: Sport & Lifestyle -->
-            <div class="heritage-slider-item" data-index="1">
-                <div class="heritage-item-content">
-                    <!-- Left Side: Image -->
-                    <div class="heritage-item-image" style="background: linear-gradient(135deg, #1a4d8f 0%, #0047AB 50%, #0073E6 100%); display: flex; align-items: center; justify-content: center;">
-                        <div style="text-align: center; color: rgba(255,255,255,0.8);">
-                            <i class="fas fa-person-running" style="font-size: 5rem; margin-bottom: 1.5rem; display: block;"></i>
-                            <p style="font-size: 1.3rem; font-weight: 700; margin: 0;">Sport Lifestyle</p>
-                        </div>
-                        <div class="heritage-image-overlay"></div>
-                    </div>
-
-                    <!-- Right Side: Text Content -->
-                    <div class="heritage-item-text">
-                        <div class="heritage-badge reveal-scale">
-                            <i class="fas fa-bolt"></i> Nueva Línea
-                        </div>
-
-                        <h2 class="heritage-title reveal-on-scroll">
-                            Movimiento <span class="heritage-highlight">sin Límites</span>
-                        </h2>
-
-                        <p class="heritage-description reveal-on-scroll">
-                            Diseñada para los que se atreven a vivir diferente. Comodidad extrema que no compromete el estilo en cada paso de tu día.
-                        </p>
-
-                        <a href="{% url 'store:products_kids' %}" class="btn-heritage-cta reveal-scale">
-                            Ver Línea Completa
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Item 3: Innovation Series -->
-            <div class="heritage-slider-item" data-index="2">
-                <div class="heritage-item-content">
-                    <!-- Left Side: Image -->
-                    <div class="heritage-item-image" style="background: linear-gradient(135deg, #8B6914 0%, #DAA520 50%, #FFD700 100%); display: flex; align-items: center; justify-content: center;">
-                        <div style="text-align: center; color: rgba(0,0,0,0.8);">
-                            <i class="fas fa-microchip" style="font-size: 5rem; margin-bottom: 1.5rem; display: block;"></i>
-                            <p style="font-size: 1.3rem; font-weight: 700; margin: 0;">Innovation Tech</p>
-                        </div>
-                        <div class="heritage-image-overlay"></div>
-                    </div>
-
-                    <!-- Right Side: Text Content -->
-                    <div class="heritage-item-text">
-                        <div class="heritage-badge reveal-scale">
-                            <i class="fas fa-microchip"></i> Tecnología
-                        </div>
-
-                        <h2 class="heritage-title reveal-on-scroll">
-                            Innovación <span class="heritage-highlight">Textil</span>
-                        </h2>
-
-                        <p class="heritage-description reveal-on-scroll">
-                            Fibras inteligentes que se adaptan a tu cuerpo y clima. Rendimiento deportivo elevado a su máxima expresión.
-                        </p>
-
-                        <a href="{% url 'store:product_list' %}?is_new=true" class="btn-heritage-cta reveal-scale">
-                            Explorar Novedades
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <!-- Navigation Buttons -->
@@ -192,14 +141,23 @@
             <i class="fas fa-chevron-right"></i>
         </button>
 
-        <!-- Indicators -->
+        <!-- Indicators - Dinámicos basados en cantidad de items -->
         <div class="heritage-indicators">
-            <button class="heritage-indicator active" data-index="0" aria-label="Ir al slide 1"></button>
-            <button class="heritage-indicator" data-index="1" aria-label="Ir al slide 2"></button>
-            <button class="heritage-indicator" data-index="2" aria-label="Ir al slide 3"></button>
+            {% for item in heritage_slider_items %}
+            <button class="heritage-indicator {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}" aria-label="Ir al slide {{ forloop.counter }}"></button>
+            {% endfor %}
         </div>
     </div>
 </section>
+
+<!-- Script para actualizar la cantidad de slides -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Actualizar totalSlides basado en la cantidad real de items
+    heritageSlider.totalSlides = document.querySelectorAll('.heritage-slider-item').length;
+});
+</script>
+{% endif %}
 
 <!-- ============================================
      NUESTRAS COLECCIONES - PREMIUM CIRCULAR DESIGN

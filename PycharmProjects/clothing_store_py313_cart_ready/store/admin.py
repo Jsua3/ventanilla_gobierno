@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Banner, Category, Product, StoreConfiguration, Video, Service, Order, OrderItem
+from .models import Banner, Category, Product, StoreConfiguration, Video, Service, Order, OrderItem, HeritageSliderItem
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
@@ -276,3 +276,67 @@ class OrderAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # No permitir crear órdenes manualmente desde admin
         return False
+
+
+@admin.register(HeritageSliderItem)
+class HeritageSliderItemAdmin(admin.ModelAdmin):
+    """Admin para gestionar items del Heritage Collection Slider"""
+    list_display = ['title', 'order', 'is_active', 'video_preview', 'thumbnail_preview', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    search_fields = ['title', 'description', 'badge_text']
+    ordering = ['order', '-created_at']
+
+    fieldsets = (
+        ('Contenido Principal', {
+            'fields': ('title', 'title_highlight', 'description'),
+            'description': 'Define el título (con parte destacada opcional) y descripción de la colección.'
+        }),
+        ('Badge (Etiqueta)', {
+            'fields': ('badge_text', 'badge_icon'),
+            'description': 'Texto e icono que aparecen en la etiqueta superior.'
+        }),
+        ('Botón de Acción (CTA)', {
+            'fields': ('cta_text', 'cta_url'),
+            'description': 'Texto y URL del botón de llamada a la acción.',
+            'classes': ('collapse',)
+        }),
+        ('Multimedia - Video', {
+            'fields': ('video_url', 'video_file', 'video_thumbnail'),
+            'description': 'Añade un video de YouTube/Vimeo (video_url) o sube un archivo local (video_file). video_thumbnail es opcional.',
+            'classes': ('collapse',)
+        }),
+        ('Estilos Visuales', {
+            'fields': ('gradient_color_1', 'gradient_color_2', 'gradient_color_3', 'icon'),
+            'description': 'Define los colores del gradiente de fondo (formato hexadecimal) e icono principal con clase Font Awesome.',
+            'classes': ('collapse',)
+        }),
+        ('Configuración', {
+            'fields': ('order', 'is_active'),
+            'description': 'Define el orden de aparición en el slider y si está activo.'
+        }),
+    )
+
+    readonly_fields = ['created_at', 'updated_at']
+
+    def video_preview(self, obj):
+        """Preview del video en el admin"""
+        if obj.video_file:
+            return format_html(
+                '<video width="150" height="100" controls>'
+                '<source src="{}" type="video/mp4">'
+                'Tu navegador no soporta el tag de video.'
+                '</video>',
+                obj.video_file.url
+            )
+        elif obj.video_url:
+            return format_html('<i class="fas fa-video" style="font-size: 30px; color: #0047AB;"></i>')
+        return "Sin video"
+    video_preview.short_description = "Vista previa de video"
+
+    def thumbnail_preview(self, obj):
+        """Preview del thumbnail"""
+        if obj.video_thumbnail:
+            return format_html('<img src="{}" style="height: 50px;"/>', obj.video_thumbnail.url)
+        return "Sin miniatura"
+    thumbnail_preview.short_description = "Miniatura"
