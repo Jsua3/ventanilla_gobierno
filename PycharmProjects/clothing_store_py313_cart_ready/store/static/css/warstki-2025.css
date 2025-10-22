@@ -109,10 +109,28 @@ body {
 
 /* ============================================
    GRADIENT TRANSITIONS - SMOOTH SECTION BLENDS
+   LIGHT MODE - Base gradient for light theme
+   ============================================ */
+
+/* Light Mode Base Gradient */
+body {
+  background: linear-gradient(
+    180deg,
+    #f8f9fa 0%,      /* Light gray top */
+    #f5f6f7 15%,     /* Subtle transition */
+    #f0f1f3 35%,     /* Lighter gray middle */
+    #ebebed 55%,     /* Medium gray */
+    #e5e6e8 75%,     /* Slightly darker gray */
+    #e0e1e3 100%     /* Gray bottom */
+  );
+  background-attachment: fixed;
+}
+
+/* ============================================
+   DARK MODE - Enhanced gradient transitions
    ============================================ */
 
 body.dark-mode {
-  /* Base page gradient for seamless section transitions */
   background: linear-gradient(
     180deg,
     #1a1f35 0%,      /* Deep navy top */
@@ -125,21 +143,12 @@ body.dark-mode {
   background-attachment: fixed;
 }
 
-body {
-  background: linear-gradient(
-    180deg,
-    #fafafa 0%,
-    #f5f5f5 50%,
-    #f0f0f0 100%
-  );
-  background-attachment: fixed;
-}
-
 /* ============================================
    SECTION GRADIENT TRANSITION OVERLAYS
+   LIGHT MODE
    ============================================ */
 
-/* Hero section transition to catalog */
+/* Hero section transition - Light Mode */
 .warstki-hero::after {
   content: '';
   position: absolute;
@@ -150,14 +159,31 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(26, 31, 53, 0.3) 100%
+    rgba(240, 241, 243, 0.4) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
-/* Catalog button section - Hero to Collections transition */
+body.dark-mode .warstki-hero::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(26, 31, 53, 0.3) 100%
+  );
+}
+
+/* Catalog button section - Light Mode */
 .catalog-button-section {
+  background: linear-gradient(
+    180deg,
+    rgba(245, 246, 247, 0.5) 0%,
+    rgba(235, 236, 237, 0.6) 50%,
+    rgba(225, 226, 228, 0.7) 100%
+  ) !important;
+}
+
+body.dark-mode .catalog-button-section {
   background: linear-gradient(
     180deg,
     rgba(26, 31, 53, 0.4) 0%,
@@ -176,14 +202,23 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(15, 22, 40, 0.4) 60%,
-    rgba(13, 20, 34, 0.5) 100%
+    rgba(225, 226, 228, 0.4) 60%,
+    rgba(210, 211, 213, 0.5) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
-/* Collections hero section - Collections to Manifesto transition */
+body.dark-mode .catalog-button-section::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(15, 22, 40, 0.4) 60%,
+    rgba(13, 20, 34, 0.5) 100%
+  );
+}
+
+/* Collections hero section - Light Mode */
 .collections-hero::after {
   content: '';
   position: absolute;
@@ -194,14 +229,23 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(13, 20, 34, 0.3) 50%,
-    rgba(10, 15, 30, 0.5) 100%
+    rgba(210, 211, 213, 0.3) 50%,
+    rgba(195, 196, 198, 0.5) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
-/* Manifesto section - Manifesto to next section transition */
+body.dark-mode .collections-hero::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(13, 20, 34, 0.3) 50%,
+    rgba(10, 15, 30, 0.5) 100%
+  );
+}
+
+/* Manifesto section - Light Mode */
 .manifesto-section::after {
   content: '';
   position: absolute;
@@ -212,14 +256,23 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(10, 15, 30, 0.4) 60%,
-    rgba(6, 8, 16, 0.6) 100%
+    rgba(195, 196, 198, 0.4) 60%,
+    rgba(180, 181, 183, 0.6) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
-/* Generic warstki-section gradient transitions */
+body.dark-mode .manifesto-section::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(10, 15, 30, 0.4) 60%,
+    rgba(6, 8, 16, 0.6) 100%
+  );
+}
+
+/* Generic warstki-section gradient transitions - Light Mode */
 .warstki-section::after {
   content: '';
   position: absolute;
@@ -230,14 +283,23 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0, 0, 0, 0.2) 80%,
-    rgba(0, 0, 0, 0.3) 100%
+    rgba(200, 200, 200, 0.2) 80%,
+    rgba(180, 180, 180, 0.3) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
-/* Dark warstki-section variant transitions */
+body.dark-mode .warstki-section::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+/* Dark warstki-section variant transitions - Light Mode */
 .warstki-section.dark::after {
   content: '';
   position: absolute;
@@ -248,18 +310,28 @@ body {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(10, 15, 30, 0.3) 70%,
-    rgba(6, 8, 16, 0.4) 100%
+    rgba(195, 196, 198, 0.3) 70%,
+    rgba(180, 181, 183, 0.4) 100%
   );
   pointer-events: none;
   z-index: 10;
 }
 
+body.dark-mode .warstki-section.dark::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(10, 15, 30, 0.3) 70%,
+    rgba(6, 8, 16, 0.4) 100%
+  );
+}
+
 /* ============================================
    ENHANCED GRADIENT MESH EFFECTS
+   LIGHT & DARK MODE
    ============================================ */
 
-/* Add subtle radial gradient overlays for depth */
+/* Light Mode: Add subtle radial gradient overlays for depth */
 .warstki-hero::before {
   content: '';
   position: absolute;
@@ -270,19 +342,38 @@ body {
   height: 250px;
   background: radial-gradient(
     ellipse 100% 100% at 50% 100%,
-    rgba(26, 31, 53, 0.4) 0%,
-    rgba(26, 31, 53, 0.1) 50%,
+    rgba(240, 241, 243, 0.3) 0%,
+    rgba(240, 241, 243, 0.1) 50%,
     transparent 100%
   );
   pointer-events: none;
   z-index: 9;
 }
 
-/* Collections section enhanced gradient */
-/* Uses base body gradient - no additional animation needed */
+/* Dark Mode: Mesh gradient overlay */
+body.dark-mode .warstki-hero::before {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 100%,
+    rgba(26, 31, 53, 0.4) 0%,
+    rgba(26, 31, 53, 0.1) 50%,
+    transparent 100%
+  );
+}
 
-/* Manifesto section mesh gradient base */
+/* Manifesto section - Light Mode */
 .manifesto-section {
+  background: linear-gradient(
+    180deg,
+    #f5f6f7 0%,
+    #efefef 30%,
+    #e8e9eb 60%,
+    #efefef 80%,
+    #e0e1e3 100%
+  ) !important;
+}
+
+/* Manifesto section - Dark Mode */
+body.dark-mode .manifesto-section {
   background: linear-gradient(
     180deg,
     #0f1628 0%,
@@ -293,12 +384,8 @@ body {
   ) !important;
 }
 
-/* Enhanced section transitions use pseudo-elements only */
-/* Avoids conflicts with existing section background definitions */
-
-/* Smooth transition zones - wider gradient blends */
-body.dark-mode {
-  /* Ensure smooth gradient flow */
+/* Ensure smooth transition zones */
+body {
   overflow-x: hidden;
 }
 

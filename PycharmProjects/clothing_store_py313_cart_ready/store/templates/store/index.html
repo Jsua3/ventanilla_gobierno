@@ -1,0 +1,1748 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}WEISS sport - Premium Athletic Wear | El deporte está en nuestro ADN{% endblock %}
+
+{% block content %}
+
+<!-- ============================================
+     HERO SECTION - NEW ERA COLLECTION
+     ============================================ -->
+<section class="warstki-hero">
+    <!-- Parallax Background -->
+    <div class="hero-parallax-bg">
+        {% if config.hero_background_image %}
+            <img src="{{ config.hero_background_image.url }}" alt="Weiss Sport Nueva Colección">
+        {% elif banners %}
+            <img src="{{ banners.0.image.url }}" alt="Weiss Sport Athletic Performance">
+        {% else %}
+            <img src="{% static 'img/hero-athlete.jpg' %}" alt="Weiss Sport Athletic Performance">
+        {% endif %}
+    </div>
+    <div class="hero-parallax-overlay"></div>
+
+    <!-- Hero Content -->
+    <div class="hero-content-wrapper">
+        <div class="hero-badge reveal-scale">
+            <i class="fas fa-bolt"></i> Nueva Colección 2025
+        </div>
+
+        <h1 class="hero-title">
+            {{ config.section_title_hero|default:"NUEVA COLECCIÓN" }}
+            <span class="highlight">{{ config.section_subtitle_hero|default:"NEW ERA" }}</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            {{ config.slogan|default:"Ropa diseñada para los deportistas más exigentes" }}
+        </p>
+
+        <div class="hero-cta-group">
+            <a href="{% url 'store:product_list' %}?is_new=true" class="btn-warstki-primary">
+                Descúbrelos Aquí
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="{% url 'store:immersive_demo' %}" class="btn-warstki-secondary" style="background: linear-gradient(135deg, #4a90e2, #9b59b6); border: none;">
+                <i class="fas fa-cube"></i> Diseña tu Camiseta 3D
+            </a>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator - Centered -->
+    <div class="scroll-indicator" style="justify-content: center;">
+        <span class="scroll-indicator-text">Descubre Más</span>
+        <i class="fas fa-chevron-down scroll-indicator-icon"></i>
+    </div>
+</section>
+
+<!-- ============================================
+     BOTÓN CATÁLOGO EXPANDIDO
+     ============================================ -->
+<section class="warstki-section catalog-button-section" style="padding: 3rem 2rem;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <a href="{% url 'store:product_list' %}" class="btn-catalog-expanded reveal-scale">
+            <span class="catalog-icon">
+                <i class="fas fa-th"></i>
+            </span>
+            <span class="catalog-text">
+                <span class="catalog-label">Explora Todo</span>
+                <span class="catalog-title">Catálogo Completo</span>
+            </span>
+            <span class="catalog-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+        </a>
+    </div>
+</section>
+
+<!-- ============================================
+     NUESTRAS COLECCIONES - PREMIUM CIRCULAR DESIGN
+     Ralph Lauren Inspired + Avatar Style
+     ============================================ -->
+<section class="collections-hero">
+    <!-- Background Layer -->
+    <div class="collections-bg-layer"></div>
+
+    <!-- Content Container -->
+    <div class="collections-container">
+        <!-- Header Section -->
+        <div class="collections-header">
+            <div class="collections-badge reveal-scale">
+                <i class="fas fa-sparkles"></i> Nuestras Colecciones Exclusivas
+            </div>
+
+            <h2 class="collections-title reveal-on-scroll">
+                Explora Nuestras Colecciones
+            </h2>
+
+            <p class="collections-subtitle reveal-on-scroll">
+                Ropa diseñada para cada momento de tu vida deportiva
+            </p>
+        </div>
+
+        <!-- Circular Categories Grid -->
+        <div class="circles-grid">
+            <!-- HOMBRE -->
+            <a href="{% url 'store:product_list' %}?gender=M" class="circle-category reveal-on-scroll" data-color="blue">
+                <div class="circle-wrapper">
+                    <div class="circle-halo halo-blue"></div>
+                    <div class="circle-container">
+                        <img src="{% static 'images/ICO HOMBRE.png' %}" alt="Hombre" class="circle-image">
+                    </div>
+                    <h3 class="circle-label">Hombre</h3>
+                </div>
+            </a>
+
+            <!-- MUJER -->
+            <a href="{% url 'store:product_list' %}?gender=F" class="circle-category reveal-on-scroll" data-color="pink">
+                <div class="circle-wrapper">
+                    <div class="circle-halo halo-pink"></div>
+                    <div class="circle-container">
+                        <img src="{% static 'images/ICO MUJER.png' %}" alt="Mujer" class="circle-image">
+                    </div>
+                    <h3 class="circle-label">Mujer</h3>
+                </div>
+            </a>
+
+            <!-- NIÑOS -->
+            <a href="{% url 'store:products_kids' %}" class="circle-category reveal-on-scroll" data-color="purple">
+                <div class="circle-wrapper">
+                    <div class="circle-halo halo-purple"></div>
+                    <div class="circle-container">
+                        <img src="{% static 'images/ICO NIÑO.png' %}" alt="Niños" class="circle-image">
+                    </div>
+                    <h3 class="circle-label">Niños</h3>
+                </div>
+            </a>
+
+            <!-- COLECCIÓN -->
+            <a href="{% url 'store:products_all' %}" class="circle-category reveal-on-scroll" data-color="orange">
+                <div class="circle-wrapper">
+                    <div class="circle-halo halo-orange"></div>
+                    <div class="circle-container">
+                        <img src="{% static 'images/ICO TODO.png' %}" alt="Colección" class="circle-image">
+                    </div>
+                    <h3 class="circle-label">Colección</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* ============================================
+   COLLECTIONS SECTION - PREMIUM DESIGN
+   ============================================ */
+
+.collections-hero {
+    position: relative;
+    background: linear-gradient(135deg, #f0f1f3 0%, #e5e6e8 100%);
+    padding: 6rem 2rem;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark-mode .collections-hero {
+    background: linear-gradient(135deg, #0f1729 0%, #1a2847 100%);
+}
+
+/* Background Layer with Mountain Effect */
+.collections-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: none;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Main Container */
+.collections-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.collections-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.collections-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.08), rgba(255, 107, 53, 0.05));
+    border: 1px solid rgba(0, 71, 171, 0.2);
+    border-radius: 50px;
+    color: #0047AB;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+body.dark-mode .collections-badge {
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.15), rgba(255, 107, 53, 0.1));
+    border: 1px solid rgba(0, 168, 255, 0.3);
+    color: #00a8ff;
+}
+
+.collections-badge i {
+    font-size: 1rem;
+    animation: floatBadge 3s ease-in-out infinite;
+}
+
+@keyframes floatBadge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Title - Elegant Serif Style */
+.collections-title {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    background: linear-gradient(135deg, #0047AB 0%, #1A1A1A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .collections-title {
+    color: white;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Subtitle */
+.collections-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(26, 26, 26, 0.7);
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body.dark-mode .collections-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================
+   CIRCULAR CATEGORIES DESIGN
+   ============================================ */
+
+.circles-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 3rem;
+    margin: 0;
+    padding: 0 2rem;
+    flex-wrap: wrap;
+}
+
+.circle-category {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    display: block;
+}
+
+.circle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+/* Circular Halo Effects */
+.circle-halo {
+    position: absolute;
+    width: 290px;
+    height: 290px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    filter: blur(35px);
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+/* Halo Gradient Colors */
+.halo-blue {
+    background: linear-gradient(135deg, #0047AB 0%, #0073E6 100%);
+}
+
+.halo-pink {
+    background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%);
+}
+
+.halo-purple {
+    background: linear-gradient(135deg, #9370DB 0%, #DA70D6 100%);
+}
+
+.halo-orange {
+    background: linear-gradient(135deg, #FF6B35 0%, #FFA500 100%);
+}
+
+/* Circle Container */
+.circle-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.circle-image {
+    width: 140%;
+    height: 140%;
+    object-fit: contain;
+    object-position: center;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.circle-category:hover .circle-halo {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.circle-category:hover .circle-container {
+    transform: scale(1.08) translateY(-10px);
+}
+
+.circle-category:hover .circle-image {
+    transform: scale(1.1);
+}
+
+/* Category Label */
+.circle-label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    margin-top: 80px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    text-align: center;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 3;
+    background: linear-gradient(135deg, #0047AB 0%, #1A1A1A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .circle-label {
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.circle-category:hover .circle-label {
+    transform: scale(1.1);
+}
+
+/* Staggered animation delays for circles */
+.circles-grid a:nth-child(1).reveal-on-scroll { transition-delay: 0.1s; }
+.circles-grid a:nth-child(2).reveal-on-scroll { transition-delay: 0.2s; }
+.circles-grid a:nth-child(3).reveal-on-scroll { transition-delay: 0.3s; }
+.circles-grid a:nth-child(4).reveal-on-scroll { transition-delay: 0.4s; }
+
+/* ============================================
+   PRODUCT GRID MINIMAL (Same as Product List)
+   ============================================ */
+
+.product-grid-minimal {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.product-card-minimal {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: visible;
+    transition: all var(--transition-base);
+    animation: fadeInUp 0.6s ease-out;
+    padding: 1.2rem;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.product-card-minimal:hover {
+    border-color: var(--warstki-blue);
+    box-shadow: 0 12px 32px rgba(0, 71, 171, 0.15);
+    transform: translateY(-8px);
+    background: var(--bg-primary);
+}
+
+.product-card-minimal a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-image-minimal {
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+.product-image-minimal .image-container {
+    transition: all var(--transition-base);
+}
+
+.product-card-minimal:hover .image-container {
+    transform: scale(1.04);
+}
+
+.product-image-minimal:hover .img-nav-btn {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+.product-image-minimal:hover .img-nav-btn:hover {
+    background: rgba(0, 71, 171, 0.9) !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.img-nav-btn {
+    transition: all var(--transition-fast) !important;
+    opacity: 0 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.img-nav-btn:hover {
+    background: rgba(0, 71, 171, 0.9) !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+.size-btn {
+    transition: all 0.2s !important;
+}
+
+.size-btn:hover {
+    background: var(--warstki-blue) !important;
+    color: white !important;
+    border-color: var(--warstki-blue) !important;
+}
+
+.size-btn.active {
+    background: var(--warstki-blue) !important;
+    color: white !important;
+    border-color: var(--warstki-blue) !important;
+}
+
+.btn-add-to-cart-minimal {
+    transition: all var(--transition-fast) !important;
+    background: #000 !important;
+}
+
+.btn-add-to-cart-minimal:hover {
+    background: var(--warstki-blue) !important;
+    box-shadow: 0 8px 20px rgba(0, 71, 171, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.btn-add-to-cart-minimal:active {
+    transform: translateY(0) !important;
+}
+
+.product-info-minimal {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-base);
+}
+
+/* Efecto de brillo en cards */
+.product-card-minimal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
+}
+
+.product-card-minimal:hover::before {
+    opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1400px) {
+    .circles-grid {
+        gap: 2.5rem;
+        padding: 0 1.5rem;
+    }
+
+    .circle-halo {
+        width: 280px;
+        height: 280px;
+    }
+
+    .circle-container {
+        width: 240px;
+        height: 240px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .collections-hero {
+        padding: 5rem 1.5rem;
+        min-height: auto;
+    }
+
+    .collections-header {
+        margin-bottom: 4rem;
+    }
+
+    .circles-grid {
+        gap: 3rem;
+        padding: 0 1rem;
+    }
+
+    .circle-halo {
+        width: 260px;
+        height: 260px;
+    }
+
+    .circle-container {
+        width: 220px;
+        height: 220px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .collections-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .collections-subtitle {
+        font-size: 1rem;
+    }
+
+    .circles-grid {
+        gap: 2.5rem;
+        padding: 0 1rem;
+    }
+
+    .circle-halo {
+        width: 240px;
+        height: 240px;
+    }
+
+    .circle-container {
+        width: 200px;
+        height: 200px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .collections-hero {
+        padding: 4rem 1rem;
+    }
+
+    .collections-header {
+        margin-bottom: 3rem;
+    }
+
+    .collections-badge {
+        font-size: 0.75rem;
+        padding: 0.6rem 1.2rem;
+    }
+
+    .circles-grid {
+        gap: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .circle-halo {
+        width: 220px;
+        height: 220px;
+    }
+
+    .circle-container {
+        width: 180px;
+        height: 180px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 1.1rem;
+    }
+
+    .circle-category:hover .circle-container {
+        transform: scale(1.05) translateY(-10px);
+    }
+}
+
+@media (max-width: 600px) {
+    .collections-hero {
+        padding: 3rem 0.75rem;
+    }
+
+    .collections-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .collections-title {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+    }
+
+    .collections-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .circles-grid {
+        gap: 2rem;
+        padding: 0;
+    }
+
+    .circle-halo {
+        width: 200px;
+        height: 200px;
+    }
+
+    .circle-container {
+        width: 160px;
+        height: 160px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .collections-hero {
+        padding: 2.5rem 0.5rem;
+    }
+
+    .collections-header {
+        margin-bottom: 2rem;
+    }
+
+    .collections-badge {
+        font-size: 0.7rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .collections-title {
+        font-size: 1.5rem;
+    }
+
+    .collections-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .circles-grid {
+        gap: 1.5rem;
+        padding: 0;
+    }
+
+    .circle-halo {
+        width: 180px;
+        height: 180px;
+    }
+
+    .circle-container {
+        width: 140px;
+        height: 140px;
+        border: none;
+    }
+
+    .circle-label {
+        margin-top: 80px;
+        font-size: 0.95rem;
+    }
+
+    .circle-category:hover .circle-halo {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .circle-category:hover .circle-container {
+        transform: scale(1.03) translateY(-8px);
+    }
+}
+</style>
+
+<!-- ============================================
+     MANIFESTO - SCROLLYTELLING
+     ============================================ -->
+<section class="manifesto-section">
+    <!-- Background Video (Optional - can use static image) -->
+    <div class="manifesto-video-bg">
+        <!-- Add video tag here if you have video -->
+        <!-- <video autoplay muted loop playsinline>
+            <source src="{% static 'video/athletes-montage.mp4' %}" type="video/mp4">
+        </video> -->
+    </div>
+
+    <div class="manifesto-content">
+        {% if config.manifesto_text %}
+            {% for line in config.manifesto_text.splitlines %}
+            <h2 class="manifesto-line {% if forloop.counter == 2 %}highlight{% endif %} reveal-on-scroll">
+                {{ line }}
+            </h2>
+            {% endfor %}
+        {% else %}
+            <h2 class="manifesto-line reveal-on-scroll">El deporte está en nuestro ADN</h2>
+            <h2 class="manifesto-line highlight reveal-on-scroll">Excelencia en cada puntada</h2>
+            <h2 class="manifesto-line reveal-on-scroll">Tecnología que no te limita, te impulsa</h2>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ============================================
+     STATS / BRAND VALUES
+     ============================================ -->
+<section class="warstki-section">
+    <div class="section-shape blue"></div>
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem;">
+
+            <div class="reveal-scale" style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color); transition: all 0.4s;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-shipping-fast" style="background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <div style="font-size: 3rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.5rem;" data-count="24">0</div>
+                <div style="font-size: 1rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Horas Envío Express</div>
+            </div>
+
+            <div class="reveal-scale" style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color); transition: all 0.4s; animation-delay: 0.1s;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-shield-alt" style="background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <div style="font-size: 3rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.5rem;" data-count="100">0</div>
+                <div style="font-size: 1rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">% Garantía</div>
+            </div>
+
+            <div class="reveal-scale" style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color); transition: all 0.4s; animation-delay: 0.2s;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-users" style="background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <div style="font-size: 3rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.5rem;" data-count="10000">0</div>
+                <div style="font-size: 1rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">+ Atletas Confían</div>
+            </div>
+
+            <div class="reveal-scale" style="text-align: center; padding: 2.5rem 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color); transition: all 0.4s; animation-delay: 0.3s;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-leaf" style="background: linear-gradient(135deg, var(--warstki-green), #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <div style="font-size: 3rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.5rem;" data-count="100">0</div>
+                <div style="font-size: 1rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">% Sostenible</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     SPORTS CATEGORIES - GRID SHOWCASE
+     ============================================ -->
+<section class="warstki-section dark">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+
+        <h2 class="section-title-warstki text-gradient-warstki reveal-on-scroll">
+            {{ config.section_title_sports|default:"Encuentra Tu Deporte" }}
+        </h2>
+        <p class="section-subtitle reveal-on-scroll">
+            {{ config.section_subtitle_sports|default:"Ropa técnica especializada para cada disciplina deportiva" }}
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+            <!-- Fútbol -->
+            <a href="{% url 'store:product_list' %}?category=futbol" class="reveal-scale" style="position: relative; height: 400px; border-radius: var(--card-radius); overflow: hidden; text-decoration: none; transition: all 0.5s; border: 1px solid var(--border-color); background: linear-gradient(135deg, rgba(0,128,0,0.1), rgba(0,0,0,0.3));">
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(0,128,0,0.8), rgba(255,215,0,0.3));">
+                    <i class="fas fa-futbol" style="font-size: 4rem; color: white; margin-bottom: 1.5rem;"></i>
+                    <h3 style="font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.5rem; text-transform: uppercase;">Fútbol</h3>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1rem;">Pasión & Competición</p>
+                    <span style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 25px; color: white; font-weight: 600;">
+                        Ver Colección <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Running -->
+            <a href="{% url 'store:product_list' %}?sport=RUNNING" class="reveal-scale" style="position: relative; height: 400px; border-radius: var(--card-radius); overflow: hidden; text-decoration: none; transition: all 0.5s; border: 1px solid var(--border-color); background: linear-gradient(135deg, rgba(0,71,171,0.1), rgba(0,0,0,0.3)); animation-delay: 0.1s;">
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(0,71,171,0.8), rgba(255,107,53,0.3));">
+                    <i class="fas fa-running" style="font-size: 4rem; color: white; margin-bottom: 1.5rem;"></i>
+                    <h3 style="font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.5rem; text-transform: uppercase;">Running</h3>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1rem;">Velocidad & Resistencia</p>
+                    <span style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 25px; color: white; font-weight: 600;">
+                        Ver Colección <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Outdoor -->
+            <a href="{% url 'store:product_list' %}?sport=OUTDOOR" class="reveal-scale" style="position: relative; height: 400px; border-radius: var(--card-radius); overflow: hidden; text-decoration: none; transition: all 0.5s; border: 1px solid var(--border-color); background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.3)); animation-delay: 0.2s;">
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(34,139,34,0.8), rgba(0,71,171,0.3));">
+                    <i class="fas fa-mountain" style="font-size: 4rem; color: white; margin-bottom: 1.5rem;"></i>
+                    <h3 style="font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.5rem; text-transform: uppercase;">Outdoor</h3>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1rem;">Aventura & Naturaleza</p>
+                    <span style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 25px; color: white; font-weight: 600;">
+                        Ver Colección <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     SALE PRODUCTS
+     ============================================ -->
+{% if sale_products %}
+<section class="warstki-section">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+
+        <h2 class="section-title-warstki reveal-on-scroll">
+            <i class="fas fa-fire" style="color: var(--warstki-orange);"></i>
+            {{ config.section_title_sale|default:"Ofertas Especiales" }}
+        </h2>
+        <p class="section-subtitle reveal-on-scroll">
+            {{ config.section_subtitle_sale|default:"Descuentos increíbles en tu ropa técnica favorita" }}
+        </p>
+
+        <!-- Products Grid - Minimal Style (Same as Product List) -->
+        <div class="product-grid-minimal">
+            {% for product in sale_products|slice:":8" %}
+            <div class="product-card-minimal reveal-on-scroll"
+                 data-product-id="{{ product.id }}"
+                 data-product-name="{{ product.name }}"
+                 data-product-price="{{ product.get_final_price }}"
+                 style="animation-delay: {{ forloop.counter0|add:0.05 }}s;">
+
+                <a href="{% url 'store:product_detail' product.slug %}" style="text-decoration: none; color: inherit;">
+                    <!-- Imagen Principal con Navegación -->
+                    <div class="product-image-minimal">
+                        <div class="image-container" style="position: relative; background: var(--bg-secondary); border-radius: 12px; overflow: hidden;">
+                            <img src="{{ product.image_main.url }}" alt="{{ product.name }}" loading="lazy" class="product-img-main" style="width: 100%; height: 320px; object-fit: cover; display: block;">
+
+                            <!-- Navegación de Imágenes (< >) -->
+                            {% if product.image_2 %}
+                            <button class="img-nav-btn img-prev" onclick="event.preventDefault(); event.stopPropagation();" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: none; align-items: center; justify-content: center; transition: all 0.3s;">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="img-nav-btn img-next" onclick="event.preventDefault(); event.stopPropagation();" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: none; align-items: center; justify-content: center; transition: all 0.3s;">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            {% endif %}
+
+                            <!-- Badges de Oferta/Nuevo -->
+                            {% if product.get_discount_percentage or product.is_new %}
+                            <div style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+                                {% if product.is_new %}
+                                <span style="background: var(--warstki-blue); color: white; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0, 71, 171, 0.3);">NUEVO</span>
+                                {% endif %}
+                                {% if product.get_discount_percentage %}
+                                <span style="background: linear-gradient(135deg, var(--warstki-orange), #FF8A00); color: white; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);">-{{ product.get_discount_percentage }}%</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Selector de Tallas (si existen) -->
+                        {% if product.sizes %}
+                        <div class="sizes-selector" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            {% for size in product.sizes|slice:":6" %}
+                            <button class="size-btn" style="padding: 0.5rem 0.75rem; border: 1.5px solid var(--border-color); background: var(--bg-primary); border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: all var(--transition-fast); color: var(--text-primary);" onclick="event.preventDefault(); event.stopPropagation();">
+                                {{ size }}
+                            </button>
+                            {% endfor %}
+                            {% if product.sizes|length > 6 %}
+                            <span style="padding: 0.5rem 0.75rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">+{{ product.sizes|length|add:-6 }}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Info del Producto - Minimalista -->
+                    <div class="product-info-minimal" style="padding: 1.2rem 0;">
+                        <!-- Título -->
+                        <h3 style="margin: 0 0 0.8rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4;">
+                            {{ product.name }}
+                        </h3>
+
+                        <!-- Precio -->
+                        <div class="price-section" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                            <span class="product-price" style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary);">
+                                ${{ product.get_final_price|floatformat:0 }}
+                            </span>
+                            {% if product.discount_price %}
+                            <span class="product-price-old" style="font-size: 0.9rem; color: #999; text-decoration: line-through;">
+                                ${{ product.price|floatformat:0 }}
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botón Agregar al Carrito (Negro) -->
+                        <button class="btn-add-to-cart-minimal"
+                                onclick="event.preventDefault(); event.stopPropagation(); window.addProductToCart('{{ product.id }}', '{{ product.name|escapejs }}', {{ product.get_final_price }}, '{{ product.image_main.url }}');"
+                                style="width: 100%; padding: 0.75rem 1rem; background: #000; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <i class="fas fa-shopping-cart"></i> AGREGAR AL CARRITO
+                        </button>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+            <!-- Empty state -->
+            {% if sale_products|length < 8 %}
+                {% for i in "12345678"|make_list %}
+                    {% if forloop.counter > sale_products|length %}
+                    <div class="product-card-minimal reveal-on-scroll" style="opacity: 0.5; pointer-events: none;">
+                        <div class="product-image-minimal">
+                            <div class="image-container" style="position: relative; background: var(--bg-secondary); border-radius: 12px; overflow: hidden; height: 320px; display: flex; align-items: center; justify-content: center;">
+                                <div style="text-align: center; color: var(--text-secondary);">
+                                    <i class="fas fa-fire" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                                    <p style="margin: 0;">Próximamente</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info-minimal" style="padding: 1.2rem 0;">
+                            <h3 style="margin: 0 0 0.8rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4;">Nueva Oferta Próximamente</h3>
+                            <div class="price-section" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary);">$---</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem;" class="reveal-on-scroll">
+            <a href="{% url 'store:product_list' %}?is_sale=true" class="btn-warstki-orange">
+                Ver Todas las Ofertas
+                <i class="fas fa-fire"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ============================================
+     QUIÉNES SOMOS - ABOUT US SECTION
+     ============================================ -->
+<section class="warstki-section dark" id="about-us" style="background: var(--bg-primary); position: relative; overflow: hidden;">
+    <div class="section-shape blue"></div>
+
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+
+        <div class="about-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+
+            <!-- Texto -->
+            <div class="about-text reveal-on-scroll" style="animation-delay: 0.1s;">
+                <h2 class="section-title-warstki text-gradient-warstki" style="text-align: left; margin-bottom: 2rem;">
+                    Quiénes Somos
+                </h2>
+
+                <div style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 1.5rem;">
+                        En <strong style="color: var(--warstki-blue);">WEISS sport</strong> transformamos la confección deportiva en una
+                        experiencia de <strong>innovación, diseño y alto rendimiento</strong>. Somos una
+                        <strong>empresa textil</strong> que fusiona <strong>tecnología avanzada</strong>
+                        con el talento y la <strong>artesanía</strong>, creando prendas que expresan
+                        identidad, comodidad y excelencia.
+                    </p>
+
+                    <p style="margin-bottom: 1.5rem;">
+                        Nos especializamos en ofrecer <strong>soluciones textiles integrales</strong>: diseño,
+                        sublimación, confección y producción a gran escala, adaptándonos a las
+                        necesidades de <strong>marcas, equipos y atletas</strong>. Cada prenda que
+                        elaboramos representa el compromiso con la
+                        <strong style="color: var(--warstki-orange);">calidad, la personalización y el orgullo de vestir el deporte</strong>.
+                    </p>
+                </div>
+
+                <div class="about-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color);">
+                        <div style="font-size: 2.5rem; font-weight: 900; color: var(--warstki-blue);" data-count="15">0</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Años Experiencia</div>
+                    </div>
+
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color);">
+                        <div style="font-size: 2.5rem; font-weight: 900; color: var(--warstki-orange);" data-count="500">0</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">+ Proyectos</div>
+                    </div>
+
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--card-radius); border: 1px solid var(--border-color);">
+                        <div style="font-size: 2.5rem; font-weight: 900; color: var(--warstki-green);" data-count="100">0</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">% Compromiso</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Imagen/Media -->
+            <div class="about-media reveal-scale" style="position: relative; border-radius: var(--card-radius); overflow: hidden; box-shadow: var(--shadow-xl); animation-delay: 0.2s;">
+                {% if config.about_us_image %}
+                    <img src="{{ config.about_us_image.url }}"
+                         alt="WEISS sport Taller de Confección"
+                         style="width: 100%; height: 500px; object-fit: cover; display: block;">
+                {% else %}
+                    <img src="{% static 'img/hero-athlete.jpg' %}"
+                         alt="WEISS sport"
+                         style="width: 100%; height: 500px; object-fit: cover; display: block;">
+                {% endif %}
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); color: white;">
+                    <h4 style="font-size: 1.3rem; font-weight: 700; margin: 0 0 0.5rem 0;">Nuestro Taller</h4>
+                    <p style="font-size: 0.95rem; opacity: 0.9; margin: 0;">Donde la pasión por el deporte se convierte en realidad</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ============================================
+     WEISS SPORT CUSTOM - CONFIGURATOR CTA
+     ============================================ -->
+<section id="custom-section" class="warstki-section">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+
+        <div class="reveal-scale" style="text-align: center; padding: 5rem 3rem; background: linear-gradient(135deg, rgba(0,71,171,0.1), rgba(255,107,53,0.1)); border-radius: 30px; border: 2px solid var(--border-color);">
+
+            <div style="font-size: 5rem; margin-bottom: 2rem;">
+                <i class="fas fa-palette" style="background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            </div>
+
+            <h2 class="display-2 text-gradient-warstki" style="margin-bottom: 1.5rem;">
+                {{ config.section_title_custom|default:"Weiss Sport Custom" }}
+            </h2>
+
+            <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 1rem;">
+                {{ config.section_subtitle_custom|default:"Diseña tu propia ropa deportiva con colores y logos personalizados" }}
+            </p>
+
+            <p style="font-size: 1.1rem; color: var(--text-primary); font-weight: 600; margin-bottom: 3rem;">
+                <i class="fas fa-check-circle" style="color: var(--warstki-green);"></i> Sin mínimo de unidades &nbsp;•&nbsp;
+                <i class="fas fa-clock" style="color: var(--warstki-orange);"></i> 3 días propuesta &nbsp;•&nbsp;
+                <i class="fas fa-shipping-fast" style="color: var(--warstki-blue);"></i> 3 semanas producción
+            </p>
+
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <a href="{% url 'store:immersive_demo' %}" class="btn-warstki-primary">
+                    <i class="fas fa-palette"></i>
+                    Iniciar Diseño
+                </a>
+                <a href="{% url 'store:servicios' %}" class="btn-warstki-secondary" style="background: rgba(255,255,255,0.1); border-color: var(--border-color); color: var(--text-primary);">
+                    <i class="fas fa-phone"></i>
+                    Ver VW CONFECCIONES
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     NEWSLETTER SECTION
+     ============================================ -->
+<section class="warstki-section dark">
+    <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 2rem;">
+
+        <div class="reveal-scale" style="text-align: center; padding: 4rem 3rem; background: linear-gradient(135deg, rgba(0,71,171,0.1), rgba(31,31,31,0.3)); backdrop-filter: blur(30px); border: 2px solid var(--border-color); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);">
+
+            <div style="font-size: 4rem; margin-bottom: 2rem; animation: float 3s ease-in-out infinite;">
+                <i class="fas fa-envelope-open-text" style="color: var(--warstki-orange);"></i>
+            </div>
+
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; text-transform: uppercase;">
+                {{ config.section_title_newsletter|default:"Únete a la Comunidad Weiss Sport" }}
+            </h2>
+
+            <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2.5rem;">
+                {{ config.section_subtitle_newsletter|default:"Recibe ofertas exclusivas, lanzamientos y consejos de entrenamiento" }}
+            </p>
+
+            <form class="newsletter-form" style="max-width: 600px; margin: 0 auto; display: flex; gap: 1rem;">
+                <input type="email"
+                       placeholder="tu@email.com"
+                       required
+                       style="flex: 1; padding: 1.2rem 2rem; border: 2px solid var(--border-color); border-radius: 50px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem; transition: all 0.3s;">
+                <button type="submit" class="btn-warstki-primary" style="white-space: nowrap; padding: 1.2rem 2.5rem;">
+                    Suscribirse
+                </button>
+            </form>
+
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.7;">
+                🔒 Tu privacidad es importante. No compartimos tu información.
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Weiss Sport Homepage JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏃‍♂️ WEISS sport Homepage loaded');
+
+    // Stats counter animation
+    const counters = document.querySelectorAll('[data-count]');
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'));
+        let current = 0;
+        const increment = target / 60;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                counter.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 30);
+    });
+
+    // Advanced 3D Card Effect - Suavizado y con expansión al salir
+    const productCards = document.querySelectorAll('.product-card-warstki:not(.product-placeholder)');
+
+    productCards.forEach(card => {
+        let isHovering = false;
+        let animationFrame = null;
+
+        card.addEventListener('mouseenter', function() {
+            isHovering = true;
+            // Transición más suave y lenta
+            this.style.transition = 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+        });
+
+        card.addEventListener('mousemove', function(e) {
+            if (!isHovering) return;
+
+            // Cancelar frame anterior para suavizar
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+            }
+
+            animationFrame = requestAnimationFrame(() => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                // Rotación más suave (reducida de 8 a 5 grados)
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                // Escala más sutil
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                const maxDistance = Math.sqrt(Math.pow(centerX, 2) + Math.pow(centerY, 2));
+                const scaleFactor = 1.05 + (distance / maxDistance) * 0.01;
+
+                // Transición instantánea durante mousemove para seguimiento suave
+                card.style.transition = 'transform 0.15s ease-out';
+
+                card.style.transform = `
+                    translateY(-35px)
+                    scale(${scaleFactor})
+                    translateZ(50px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                `;
+            });
+        });
+
+        card.addEventListener('mouseleave', function() {
+            isHovering = false;
+
+            // Efecto de expansión al salir (bounce back)
+            this.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            this.style.transform = 'scale(1.02)';
+
+            // Volver al estado normal después de la expansión
+            setTimeout(() => {
+                if (!isHovering) {
+                    this.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                    this.style.transform = '';
+                }
+            }, 150);
+        });
+    });
+
+    // ============================================
+    // ANIMACIONES RESPONSIVAS AL MOUSE 3D TILT
+    // ============================================
+    document.querySelectorAll('.product-card-minimal').forEach(card => {
+        const imageContainer = card.querySelector('.image-container');
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calcular rotación suave basada en posición del mouse
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * 2; // Rotación suave (2 grados máximo)
+            const rotateY = ((centerX - x) / centerX) * 2; // Rotación suave (2 grados máximo)
+
+            // Aplicar 3D tilt suave
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            card.style.transition = 'none'; // Sin transición durante el movimiento
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0px)';
+            card.style.transition = 'all var(--transition-base)';
+        });
+
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'none';
+        });
+    });
+
+    // Size Button Functionality
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Remove active from siblings
+            this.parentElement.querySelectorAll('.size-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            // Add active to clicked button
+            this.classList.add('active');
+        });
+    });
+
+    // Image Navigation Arrows
+    document.querySelectorAll('.img-prev, .img-next').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Navigation functionality here (if multiple images available)
+        });
+    });
+
+    // Show/Hide arrows on hover
+    document.querySelectorAll('.image-container').forEach(container => {
+        container.addEventListener('mouseenter', function() {
+            this.querySelectorAll('.img-nav-btn').forEach(btn => {
+                btn.style.display = 'flex';
+            });
+        });
+
+        container.addEventListener('mouseleave', function() {
+            this.querySelectorAll('.img-nav-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+        });
+    });
+
+    // Newsletter form handling
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert('¡Gracias por suscribirte! Te enviaremos nuestras mejores ofertas a: ' + email);
+            this.reset();
+        });
+    }
+});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ============================================
+   BOTÓN CATÁLOGO EXPANDIDO
+   ============================================ */
+.btn-catalog-expanded {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem;
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.1), rgba(255, 107, 53, 0.1));
+    border: 2px solid var(--border-color);
+    border-radius: 50px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    gap: 2rem;
+}
+
+.btn-catalog-expanded::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 71, 171, 0.2), transparent);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+.btn-catalog-expanded:hover {
+    border-color: var(--warstki-blue);
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.2), rgba(255, 107, 53, 0.15));
+    box-shadow: 0 20px 60px rgba(0, 71, 171, 0.3), 0 10px 30px rgba(255, 107, 53, 0.2);
+    transform: translateY(-8px);
+}
+
+.btn-catalog-expanded:hover::before {
+    top: -50%;
+    left: -50%;
+}
+
+.catalog-icon {
+    font-size: 2.5rem;
+    color: var(--warstki-blue);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-catalog-expanded:hover .catalog-icon {
+    transform: scale(1.2) rotateY(360deg);
+    color: var(--warstki-orange);
+}
+
+.catalog-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+.catalog-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    transition: color 0.5s ease;
+}
+
+.catalog-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.5s ease;
+}
+
+.btn-catalog-expanded:hover .catalog-label {
+    color: var(--warstki-blue);
+}
+
+.btn-catalog-expanded:hover .catalog-title {
+    background: linear-gradient(135deg, var(--warstki-orange), var(--warstki-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.catalog-arrow {
+    font-size: 1.5rem;
+    color: var(--warstki-blue);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-catalog-expanded:hover .catalog-arrow {
+    color: var(--warstki-orange);
+    transform: translateX(8px) scale(1.2);
+}
+
+/* Responsive Design for Catalog Button */
+@media (max-width: 1200px) {
+    .btn-catalog-expanded {
+        max-width: 500px;
+        padding: 2rem 2.5rem;
+    }
+
+    .catalog-title {
+        font-size: 1.4rem;
+    }
+
+    .catalog-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-catalog-expanded {
+        flex-direction: column;
+        text-align: center;
+        max-width: 100%;
+        padding: 2rem;
+        gap: 1rem;
+    }
+
+    .catalog-text {
+        text-align: center;
+    }
+
+    .catalog-label {
+        font-size: 0.8rem;
+    }
+
+    .catalog-title {
+        font-size: 1.3rem;
+    }
+
+    .catalog-icon {
+        font-size: 1.8rem;
+    }
+
+    .catalog-arrow {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-catalog-expanded {
+        padding: 1.5rem 1.5rem;
+        gap: 0.75rem;
+    }
+
+    .catalog-title {
+        font-size: 1.1rem;
+    }
+
+    .catalog-icon {
+        font-size: 1.5rem;
+    }
+
+    .catalog-label {
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
+   SMOOTH BUTTON ANIMATIONS
+   ============================================ */
+.btn-warstki-primary,
+.btn-warstki-secondary {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-warstki-primary::before,
+.btn-warstki-secondary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.btn-warstki-primary:hover::before,
+.btn-warstki-secondary:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.btn-warstki-primary > *,
+.btn-warstki-secondary > * {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-warstki-primary:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 20px 50px rgba(0, 71, 171, 0.4) !important;
+}
+
+.btn-warstki-secondary:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+}
+
+.btn-warstki-primary i,
+.btn-warstki-secondary i {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-warstki-primary:hover i,
+.btn-warstki-secondary:hover i {
+    transform: scale(1.2) rotateZ(10deg);
+}
+
+/* Separator section styles */
+.separator-section {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.separator-section img {
+    transition: transform 0.5s ease-out;
+}
+
+.separator-section:hover img {
+    transform: scale(1.05);
+}
+
+/* Minimal Catalog Styles - 4 Column Grid */
+.product-grid-minimal {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.product-card-minimal {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-card-minimal:hover {
+    border-color: var(--warstki-blue) !important;
+    box-shadow: 0 12px 32px rgba(0, 71, 171, 0.15) !important;
+    transform: translateY(-8px) !important;
+}
+
+.product-card-minimal:hover .image-container {
+    transform: scale(1.04) !important;
+}
+
+.product-card-minimal:hover .shine-effect {
+    opacity: 1 !important;
+}
+
+.btn-add-to-cart-minimal:hover {
+    background: var(--warstki-blue) !important;
+    box-shadow: 0 8px 20px rgba(0, 71, 171, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.btn-add-to-cart-minimal:active {
+    transform: translateY(0px) !important;
+}
+
+.size-btn:hover {
+    background: var(--warstki-blue) !important;
+    color: white !important;
+    border-color: var(--warstki-blue) !important;
+}
+
+.size-btn.active {
+    background: var(--warstki-blue) !important;
+    color: white !important;
+    border-color: var(--warstki-blue) !important;
+}
+
+.img-nav-btn:hover {
+    background: rgba(0, 71, 171, 0.8) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1399px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 1199px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-wrapper {
+        grid-template-columns: 1fr !important;
+    }
+
+    .about-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .separator-section > div {
+        height: 250px !important;
+    }
+
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 1399px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1199px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-cta-group a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+    }
+
+    .product-card-minimal {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid-minimal {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    .product-card-minimal {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid-minimal {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+    }
+
+    .product-card-minimal {
+        padding: 0.6rem;
+    }
+
+    .product-card-minimal:hover .image-container {
+        transform: scale(1.02);
+    }
+}
+</style>
+{% endblock %}
