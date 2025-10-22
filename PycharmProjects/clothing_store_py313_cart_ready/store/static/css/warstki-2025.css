@@ -1052,6 +1052,59 @@ body.dark-mode .hero-parallax-bg img {
   box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
 }
 
+/* Immersive Design Button - Light & Dark Mode Support */
+.btn-immersive {
+  background: linear-gradient(135deg, #4a7fd9, #7c5ac2) !important;
+  border: 2px solid rgba(74, 127, 217, 0.4) !important;
+  color: white !important;
+}
+
+.btn-immersive:hover {
+  background: linear-gradient(135deg, #3d6fcb, #6f4db4) !important;
+  border-color: rgba(74, 127, 217, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(74, 127, 217, 0.4) !important;
+  transform: translateY(-5px) !important;
+}
+
+body.dark-mode .btn-immersive {
+  background: linear-gradient(135deg, #4a90e2, #9b59b6) !important;
+  border: 2px solid rgba(148, 89, 182, 0.4) !important;
+}
+
+body.dark-mode .btn-immersive:hover {
+  background: linear-gradient(135deg, #3a80d2, #8b49a6) !important;
+  border-color: rgba(148, 89, 182, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(148, 89, 182, 0.4) !important;
+}
+
+/* Secondary Button with Theme Support */
+.btn-secondary-theme {
+  background: rgba(0, 71, 171, 0.08) !important;
+  border: 2px solid rgba(0, 71, 171, 0.2) !important;
+  color: #1A1A1A !important;
+}
+
+.btn-secondary-theme:hover {
+  background: rgba(0, 71, 171, 0.12) !important;
+  border-color: rgba(0, 71, 171, 0.4) !important;
+  box-shadow: 0 10px 30px rgba(0, 71, 171, 0.2) !important;
+  transform: translateY(-5px) !important;
+  color: #0047AB !important;
+}
+
+body.dark-mode .btn-secondary-theme {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+}
+
+body.dark-mode .btn-secondary-theme:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: white !important;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
 /* Scroll Indicator */
 .scroll-indicator {
   position: absolute;
