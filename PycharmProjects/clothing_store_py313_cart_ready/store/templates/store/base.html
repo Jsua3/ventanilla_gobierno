@@ -173,53 +173,61 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(0px);
             z-index: 2000;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        backdrop-filter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             padding: 2rem;
+            align-items: center;
+            justify-content: center;
         }
 
         .search-modal.active {
             display: flex;
             opacity: 1;
-            animation: modalFadeIn 0.3s ease;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            animation: modalBackdropFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes modalFadeIn {
+        @keyframes modalBackdropFadeIn {
             from {
-                opacity: 0;
+                background: rgba(0, 0, 0, 0);
+                backdrop-filter: blur(0px);
             }
             to {
-                opacity: 1;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(8px);
             }
-        }
-
-        .search-modal {
-            align-items: center;
-            justify-content: center;
         }
 
         .search-modal-content {
             background: var(--bg-primary);
             border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 900px;
             position: relative;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
-            animation: modalSlideUp 0.3s ease;
         }
 
-        @keyframes modalSlideUp {
-            from {
-                transform: translateY(30px);
+        .search-modal.active .search-modal-content {
+            animation: modalContentZoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalContentZoomIn {
+            0% {
+                transform: scale(0.8) translateY(-20px);
                 opacity: 0;
             }
-            to {
-                transform: translateY(0);
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1) translateY(0);
                 opacity: 1;
             }
         }
@@ -239,45 +247,146 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 10;
+        }
+
+        .search-modal.active .search-modal-close {
+            animation: closeButtonAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+        }
+
+        @keyframes closeButtonAppear {
+            from {
+                opacity: 0;
+                transform: rotate(-45deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
         }
 
         .search-modal-close:hover {
             background: rgba(0, 71, 171, 0.2);
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .search-modal-close:active {
+            transform: scale(0.95) rotate(90deg);
+        }
+
+        /* Animación de cierre */
+        .search-modal.closing {
+            animation: modalBackdropFadeOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .search-modal.closing .search-modal-content {
+            animation: modalContentZoomOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalBackdropFadeOut {
+            to {
+                opacity: 0;
+                background: rgba(0, 0, 0, 0);
+                backdrop-filter: blur(0px);
+            }
+        }
+
+        @keyframes modalContentZoomOut {
+            to {
+                transform: scale(0.8) translateY(-20px);
+                opacity: 0;
+            }
         }
 
         .search-modal-container {
             padding: 4rem 2rem 2rem;
+            animation: containerFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+
+        @keyframes containerFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-modal-form {
+            animation: formSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+        }
+
+        @keyframes formSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-modal-form input {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .search-modal-form input:focus {
             outline: none;
             border-color: var(--warstki-blue);
-            box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 71, 171, 0.15),
+                        0 8px 20px rgba(0, 71, 171, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-modal-form button {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .search-modal-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 71, 171, 0.3) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 71, 171, 0.4) !important;
         }
 
         .search-modal-form button:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         /* Búsquedas populares */
         .search-modal-form a {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: popularSearchFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .search-modal-form a:nth-child(1) { animation-delay: 0.3s; }
+        .search-modal-form a:nth-child(2) { animation-delay: 0.35s; }
+        .search-modal-form a:nth-child(3) { animation-delay: 0.4s; }
+        .search-modal-form a:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes popularSearchFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .search-modal-form a:hover {
             background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)) !important;
             color: white !important;
             border-color: transparent !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 71, 171, 0.2);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 71, 171, 0.3);
+        }
+
+        .search-modal-form a:active {
+            transform: translateY(-1px) scale(1);
         }
 
         /* Dark mode support */
@@ -678,34 +787,56 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchClose = document.getElementById('search-close');
     const searchInput = searchModal ? searchModal.querySelector('input[name="q"]') : null;
 
-    if (searchToggle && searchModal) {
-        // Open search modal
-        searchToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
+    // Función para cerrar el modal con animación
+    function closeSearchModal() {
+        if (searchModal && searchModal.classList.contains('active')) {
+            searchModal.classList.add('closing');
+
+            // Esperar a que termine la animación de cierre
+            setTimeout(function() {
+                searchModal.classList.remove('active');
+                searchModal.classList.remove('closing');
+            }, 400); // Debe coincidir con la duración de la animación
+        }
+    }
+
+    // Función para abrir el modal
+    function openSearchModal() {
+        if (searchModal) {
+            searchModal.classList.remove('closing');
             searchModal.classList.add('active');
             if (searchInput) {
                 searchInput.focus();
             }
+        }
+    }
+
+    if (searchToggle && searchModal) {
+        // Open search modal
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openSearchModal();
         });
 
         // Close search modal with X button
         if (searchClose) {
-            searchClose.addEventListener('click', function() {
-                searchModal.classList.remove('active');
+            searchClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeSearchModal();
             });
         }
 
         // Close search modal when clicking outside
         searchModal.addEventListener('click', function(e) {
             if (e.target === searchModal) {
-                searchModal.classList.remove('active');
+                closeSearchModal();
             }
         });
 
         // Close with ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && searchModal.classList.contains('active')) {
-                searchModal.classList.remove('active');
+                closeSearchModal();
             }
         });
 
@@ -713,9 +844,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
-                searchModal.classList.add('active');
-                if (searchInput) {
-                    searchInput.focus();
+                if (searchModal.classList.contains('active')) {
+                    closeSearchModal();
+                } else {
+                    openSearchModal();
                 }
             }
         });
