@@ -1,0 +1,287 @@
+/* ====== Variables y base ====== */
+:root{
+  --bg:#000; --fg:#fff; --muted:#bdbdbd;
+  --panel:#121212; --panel2:#000000; --line:#1f1f1f;
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:#fff;
+  font:16px/1.45 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+img{ max-width:100%; display:block }
+.container{ max-width:1100px; margin:0 auto; padding:0 16px }
+
+/* ====== Header ====== */
+.header{
+  position:sticky; top:0; z-index:10;
+  background:#0b0b0b;
+  border-bottom:1px solid var(--line);
+}
+.header__inner{ display:flex; align-items:center; gap:12px; padding:10px 0 }
+.logo{ font-weight:800; letter-spacing:.05em }
+.search{
+  flex:1; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--line); background:#0e0e0e; color:var(--fg)
+}
+.icon-btn{
+  position:relative; display:inline-grid; place-items:center;
+  border:1px solid var(--line); background:#0e0e0e; color:#fff;
+  border-radius:10px; padding:8px; cursor:pointer
+}
+.icon-img{ width:22px; height:22px }
+.badge{
+  position:absolute; right:-6px; top:-6px;
+  min-width:20px; height:20px; border-radius:999px;
+  background:#fff; color:#000; display:grid; place-items:center;
+  font-size:12px; border:1px solid #ddd
+}
+
+/* ====== Hero ====== */
+.hero{ padding:32px 0; border-bottom:1px solid var(--line); text-align:center }
+
+/* ====== Catálogo ====== */
+.catalogo{ padding:24px 0 }
+.grid{
+  display:grid; gap:14px;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+}
+@media (min-width:900px){
+  .grid{ grid-template-columns:repeat(4, minmax(0,1fr)) }
+}
+.card{
+  background:var(--panel); border:1px solid var(--line);
+  border-radius:14px; overflow:hidden
+}
+.card img{ height:140px; width:100%; object-fit:cover }
+.card__meta{ padding:10px }
+.card__title{ font-size:14px; margin:0 0 6px 0 }
+.card__row{ display:flex; justify-content:space-between; align-items:center; gap:8px }
+.price{ font-weight:800 }
+.btn{
+  border:1px solid var(--line); border-radius:10px;
+  padding:8px 10px; background:#0e0e0e; color:#fff; cursor:pointer
+}
+.btn--solid{ background:#191919; border:2px solid #fff; }
+.btn--ghost{ background:transparent; border:2px solid #fff; color:#fff }
+.btn--solid:hover{ filter:brightness(1.15) }
+.btn--ghost:hover{ background:#fff; color:#000 }
+
+/* Chips */
+.tag{
+  display:inline-block; font-size:12px; color:#ddd;
+  border:1px solid var(--line); border-radius:999px;
+  padding:4px 8px; margin-top:6px; margin-right:6px
+}
+
+/* ====== Footer ====== */
+.footer{ border-top:1px solid var(--line); text-align:center; padding:16px 0; color:#cfcfcf }
+
+/* ====== Carrito lateral ====== */
+.cart{ position:fixed; inset:0; pointer-events:none }
+.cart__panel{
+  position:absolute; right:-420px; top:0; height:100%; width:360px; max-width: 100%;
+  background:var(--panel);
+  border:2px solid #fff;
+  transition:right .35s;
+  display:flex; flex-direction:column; pointer-events:auto;
+
+  /* Activa la animación */
+  animation: shadowColor 2s infinite alternate;
+
+  display:flex;
+  flex-direction:column;
+
+}
+.cart[data-open] .cart__panel{ right:0 }
+.backdrop{
+  position:absolute; inset:0; background:rgba(255, 255, 255, 0); transition:background .35s
+}
+.cart[data-open] .backdrop{ background:rgba(255,255,255,0) } /* Letras Carrito */
+.cart__head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px; border-bottom:1px solid var(--line)
+}
+.cart__items{ flex:1; overflow:auto }
+.cart__row{
+  display:flex; gap:10px; padding:12px; border-bottom:1px solid var(--line)
+}
+.cart__row img{
+  width:72px; height:72px; border-radius:10px; object-fit:cover; border:1px solid var(--line)
+}
+.cart__info{ flex:1 }
+.cart__title{ font-weight:700 }
+.qty{ display:flex; gap:8px; align-items:center; margin-top:8px }
+.qty button{
+  background:#0b0b0b; border:1px solid var(--line);
+  color:#eee; border-radius:8px; padding:4px 10px; cursor:pointer
+}
+.qty .danger{ color:#ff7a7a; border-color:#663 }
+.cart__foot{ 
+  margin-top:auto;
+  padding:14px;
+  border-top:1px solid var(--line); }
+.cart__total{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px }
+
+/* ====== Checkout ====== */
+.checkout{ padding:14px; overflow:auto }
+.muted{ color:var#ffffff } /* por defecto gris fuera del carrito/checkout */
+
+.form{ display:grid; gap:10px; margin-top:8px }
+.form .row{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.form input{
+  width:100%; padding:10px 12px; border-radius:10px;
+  border:1px solid #fff; background:#0e0e0e; color:#fff;
+}
+
+/* Errores y acciones */
+.error{ color:#ff8a8a }
+.actions{ display:flex; gap:10px; justify-content:end; align-items: center;}
+
+/* ====== Modal (métodos de pago) ====== */
+dialog.modal{
+  width:min(520px,95vw);
+  border:2px solid #fff;
+  border-radius:16px;
+  padding:0;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  color:#fff;
+  background:#111;
+}
+dialog::backdrop{ background:rgba(0,0,0,.6) }
+.modal__head, .modal__foot{ padding:16px 20px }
+.modal__head{ display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line) }
+.modal__body{ padding:8px 12px 16px }
+.methods{ display:grid; gap:8px; padding:0 8px }
+.method-btn{
+  width:100%; padding:12px 14px; border-radius:10px;
+  border:1px solid var(--line); background:#111; color:#fff;
+  text-align:left; display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+  transition:.2s;
+}
+.method-btn:hover{ background:#1a1a1a }
+.method-note{ font-size:12px; opacity:.7 }
+
+/* Quitar productos del ccarrito */
+.item-actions{ display:flex; align-items:center; gap:8px; }
+.qty-remove{
+  width:56px; padding:4px 6px; border-radius:8px;
+  background:#0e0e0e; color:#fff; border:1px solid #fff;
+}
+.remove-btn{ background:none; border:none; color:#ff5c5c; font-size:18px; cursor:pointer; }
+.remove-btn:hover{ color:#ff0000; }
+
+/* ===== Recibo de pago ===== */
+.receipt {
+  max-width: min(720px, 96vw); /* ancho máximo: 720px o 96% del viewport en pantallas pequeñas */
+  border: 2px solid #fff;      /* borde blanco alrededor del modal */
+  border-radius: 16px;         /* esquinas redondeadas */
+  background: #111;            /* fondo negro (oscuro) */
+  color: #fff;                 /* texto blanco */
+}
+
+.receipt__wrap { padding: 16px 18px; } /* espacio interno alrededor del contenido */
+
+.receipt__head {
+  display:flex;                           /* usa flexbox para alinear */
+  justify-content:space-between;          /* título a la izquierda, meta a la derecha */
+  align-items:flex-start;                 /* alinear arriba */
+  border-bottom:1px solid var(--line);    /* línea divisoria abajo */
+  padding-bottom:10px;                    /* espacio bajo el encabezado */
+  margin-bottom:12px;                     /* separación con la siguiente sección */
+}
+.receipt__head h3 { margin:0 0 2px 0; }   /* quita márgenes extra al título */
+.receipt__meta { text-align:right; font-size:14px; } /* ID/fecha alineados a la derecha */
+.receipt__meta span { opacity:.8; margin-right:6px; } /* “ID:” y “Fecha:” en gris más tenue */
+
+.receipt__who {
+  display:grid;                                   /* usa grid layout */
+  grid-template-columns: repeat(2, 1fr);          /* 2 columnas iguales */
+  gap:8px 14px;                                   /* espacio entre filas y columnas */
+  border-bottom:1px solid var(--line);            /* línea separadora */
+  padding-bottom:10px;                            /* espacio inferior */
+  margin-bottom:12px;                             /* separación con la tabla */
+}
+.receipt__who span { opacity:.8; margin-right:6px; } /* los labels (“Cliente:”) en gris tenue */
+
+.receipt__items table { 
+  width:100%;                      /* tabla ocupa todo el ancho */
+  border-collapse: collapse;       /* quita los espacios dobles entre bordes */
+}
+.receipt__items thead th {
+  text-align:left;                 /* encabezados alineados a la izquierda */
+  font-weight:700;                 /* negrita */
+  border-bottom:1px solid var(--line); /* línea bajo el encabezado */
+  padding:8px 6px;                 /* espacio interno */
+}
+.receipt__items tbody td {
+  padding:8px 6px;                 /* espacio interno */
+  border-bottom:1px dashed #333;   /* línea punteada entre filas */
+}
+.receipt__items tfoot td {
+  padding:10px 6px;                /* espacio interno */
+  font-weight:800;                 /* total en negrita */
+  border-top:1px solid var(--line);/* línea superior para separar el total */
+}
+
+/* Clases auxiliares para alinear */
+.ta-r { text-align:right; }
+.ta-c { text-align:center; }
+
+.receipt__note { 
+  font-size:13px;   /* texto pequeño */
+  opacity:.8;       /* color más tenue */
+  margin:12px 2px 2px; /* espacio arriba y márgenes pequeños */
+}
+
+.receipt__actions {
+  display:flex;                     /* botones en fila */
+  gap:10px;                         /* espacio entre botones */
+  justify-content:flex-end;         /* alineados a la derecha */
+  padding:14px 18px;                /* espacio interno */
+  border-top:1px solid var(--line); /* línea arriba para separar los botones */
+}
+/* =================================================================== */
+/* ========== BLOQUE FINAL (DEBE IR AL FINAL DEL ARCHIVO) ============ */
+/* Forzar texto blanco en carrito y checkout, superando cualquier regla */
+/* =================================================================== */
+
+#cart .cart__panel,
+#cart .cart__panel *{
+  color:#fff !important;
+}
+
+#cart .cart__panel .muted{
+  color:#fff !important;
+}
+
+#checkout-view,
+#checkout-view *{
+  color:#fff !important;
+}
+
+/* Si tienes placeholders en inputs y se ven gris oscuro, puedes usar: */
+/*
+#checkout-view input::placeholder { color:#bbb !important; }
+*/
+@keyframes shadowColor {
+  0%   { box-shadow:-20px 0 40px rgba(158, 155, 155, 0.4); }
+  100%  { box-shadow:-20px 0 40px rgba(235, 232, 232, 0.6); }   /* rojo */
+}
+
+/* ===== Impresión: recibo en hoja blanca ===== */
+@media print {
+  body { background:#fff; color:#000; }              /* fondo blanco, texto negro */
+  dialog.modal { border:none; box-shadow:none; }     /* quita bordes/sombras del modal */
+  .receipt { border:none; background:#fff; color:#000; } /* recibo se imprime limpio */
+  .receipt__head, .receipt__who { border-color:#ddd; }   /* bordes grises claros */
+  .receipt__items thead th { border-color:#ffffff; }        /* encabezados grises claros */
+  .receipt__items tbody td { border-bottom:1px dashed #ddd; } /* líneas punteadas grises */
+  .receipt__items tfoot td { border-color:#ddd; }         /* borde superior gris */
+  .receipt__actions, .header, .footer, .cart, .modal__foot { 
+    display:none !important;    /* oculta botones, header/footer y carrito al imprimir */
+  }
+}

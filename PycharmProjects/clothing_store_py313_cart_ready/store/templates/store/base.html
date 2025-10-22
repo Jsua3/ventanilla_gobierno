@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weiss Sport - Ropa técnica premium para deportistas de alto rendimiento. El deporte está en nuestro ADN.">
+    <meta name="keywords" content="ropa deportiva, athletic wear, running, ciclismo, fitness, training, ropa técnica">
+    <meta name="author" content="Weiss Sport">
+
+    <title>{% block title %}Weiss Sport - Premium Athletic Wear{% endblock %}</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Weiss Sport 2025 Styles -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/warstki-2025.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme-toggle.css' %}">
+    <link rel="stylesheet" href="{% static 'carrito/cart-styles.css' %}">
+
+    {% if config.favicon %}
+    <link rel="icon" type="image/x-icon" href="{{ config.favicon.url }}">
+    {% endif %}
+
+    <!-- Additional page-specific styles -->
+    {% block extra_css %}{% endblock %}
+
+    <!-- User Menu Styles -->
+    <style>
+        .user-menu-dropdown {
+            position: relative;
+        }
+
+        .user-menu-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 168, 255, 0.2);
+            border-radius: 8px;
+            min-width: 240px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            margin-top: 8px;
+            overflow: hidden;
+            animation: dropdownSlide 0.2s ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-menu-panel.active {
+            display: block;
+        }
+
+        .user-info {
+            padding: 1rem;
+        }
+
+        .user-greeting {
+            font-weight: 600;
+            color: #0a0a0a;
+            margin: 0 0 0.25rem 0;
+            font-size: 0.95rem;
+        }
+
+        .user-email {
+            color: #999;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .user-menu-panel hr {
+            margin: 0;
+            border: none;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .user-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            color: #0a0a0a;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .user-menu-item:hover {
+            background: rgba(0, 168, 255, 0.1);
+            color: #00a8ff;
+        }
+
+        .logout-btn {
+            color: #ef4444;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #b91c1c;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 168, 255, 0.1);
+            color: #00a8ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+        }
+
+        .auth-btn:hover {
+            background: rgba(0, 168, 255, 0.2);
+            border-color: #00a8ff;
+            transform: translateY(-2px);
+        }
+
+        .auth-btn.login-btn {
+            color: #00a8ff;
+        }
+
+        .auth-btn.signup-btn {
+            color: #00a8ff;
+        }
+
+        @media (max-width: 768px) {
+            .user-menu-panel {
+                min-width: 200px;
+            }
+
+            .user-greeting {
+                font-size: 0.9rem;
+            }
+
+            .user-email {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ============================================
+           SEARCH MODAL STYLES
+           ============================================ */
+        .search-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 2rem;
+        }
+
+        .search-modal.active {
+            display: flex;
+            opacity: 1;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .search-modal {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-modal-content {
+            background: var(--bg-primary);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .search-modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(0, 71, 171, 0.1);
+            color: var(--text-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .search-modal-close:hover {
+            background: rgba(0, 71, 171, 0.2);
+            transform: scale(1.1);
+        }
+
+        .search-modal-container {
+            padding: 4rem 2rem 2rem;
+        }
+
+        .search-modal-form input:focus {
+            outline: none;
+            border-color: var(--warstki-blue);
+            box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.1);
+        }
+
+        .search-modal-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 71, 171, 0.3) !important;
+        }
+
+        .search-modal-form button:active {
+            transform: translateY(0);
+        }
+
+        /* Búsquedas populares */
+        .search-modal-form a {
+            transition: all 0.3s ease;
+        }
+
+        .search-modal-form a:hover {
+            background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)) !important;
+            color: white !important;
+            border-color: transparent !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 71, 171, 0.2);
+        }
+
+        /* Dark mode support */
+        body.dark-mode .search-modal {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-mode .search-modal-content {
+            background: var(--dark-bg-primary);
+        }
+
+        body.dark-mode .search-modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        body.dark-mode .search-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .search-modal {
+                padding: 1rem;
+            }
+
+            .search-modal-container {
+                padding: 2.5rem 1.5rem 1.5rem;
+            }
+
+            .search-modal-content {
+                max-height: 90vh;
+            }
+
+            .search-modal-form {
+                max-width: 100%;
+            }
+
+            .search-modal-form > div {
+                flex-direction: column;
+            }
+
+            .search-modal-form input,
+            .search-modal-form button {
+                width: 100%;
+            }
+
+            .search-modal-close {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Weiss Sport - Premium Athletic Wear">
+    <meta property="og:description" content="Ropa diseñada para los deportistas más exigentes que están en busca de su mejor compañero para la aventura">
+    {% if config.logo %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ config.logo.url }}">
+    {% endif %}
+</head>
+<body>
+
+<!-- ============================================
+     WEISS SPORT HEADER / NAVIGATION
+     ============================================ -->
+<header class="warstki-header">
+    <div class="container">
+        <!-- Left Navigation -->
+        <nav class="warstki-nav warstki-nav-left">
+            <!-- Men Category -->
+            <div class="mega-menu-trigger" data-menu="menu-men">
+                <a href="#" class="warstki-nav-link">
+                    Hombre
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </a>
+            </div>
+
+            <!-- Women Category -->
+            <div class="mega-menu-trigger" data-menu="menu-women">
+                <a href="#" class="warstki-nav-link">
+                    Mujer
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </a>
+            </div>
+
+            <!-- Kids Category -->
+            <div class="mega-menu-trigger" data-menu="menu-kids">
+                <a href="#" class="warstki-nav-link">
+                    Niños
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </a>
+            </div>
+
+            <!-- Sports Category -->
+            <div class="mega-menu-trigger" data-menu="menu-sports">
+                <a href="#" class="warstki-nav-link">
+                    Deportes
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </a>
+            </div>
+
+            <!-- Offers -->
+            <a href="{% url 'store:product_list' %}?is_sale=true" class="warstki-nav-link">
+                Ofertas
+            </a>
+
+            <!-- Custom -->
+            <a href="#custom-section" class="warstki-nav-link">
+                Custom
+            </a>
+        </nav>
+
+        <!-- Logo Centered -->
+        <a href="{% url 'store:index' %}" class="warstki-logo">
+            {% if config.logo %}
+                <img src="{{ config.logo.url }}" alt="Weiss Sport" style="height: 35px;">
+            {% else %}
+                Weiss Sport<span class="trademark">®</span>
+            {% endif %}
+        </a>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+            <!-- Search -->
+            <button class="search-icon" title="Buscar" id="search-toggle">
+                <i class="fas fa-search"></i>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button class="theme-toggle" title="Cambiar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <!-- User Account -->
+            {% if user.is_authenticated %}
+            <div class="user-menu-dropdown">
+                <button class="user-icon" title="Mi cuenta" id="user-menu-toggle">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="user-menu-panel" id="user-menu-panel">
+                    <div class="user-info">
+                        <p class="user-greeting">Hola, <strong>{{ user.username }}</strong></p>
+                        <p class="user-email">{{ user.email }}</p>
+                    </div>
+                    <hr>
+                    <a href="{% url 'accounts:logout' %}" class="user-menu-item logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="auth-buttons">
+                <a href="{% url 'accounts:login' %}" class="auth-btn login-btn" title="Iniciar Sesión">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+                <a href="{% url 'accounts:signup' %}" class="auth-btn signup-btn" title="Registrarse">
+                    <i class="fas fa-user-plus"></i>
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Shopping Cart -->
+            <a href="{% url 'cart:cart_view' %}" class="cart-icon" title="Carrito">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-badge" class="cart-badge" {% if cart_items_count == 0 %}hidden{% endif %}>{{ cart_items_count }}</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Search Modal Overlay -->
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-content">
+            <button class="search-modal-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="search-modal-container">
+                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2rem; text-align: center;">
+                    Buscar Productos
+                </h2>
+
+                <form method="get" action="{% url 'store:search' %}" class="search-modal-form" style="max-width: 700px; margin: 0 auto;">
+                    <div style="display: flex; gap: 1rem;">
+                        <input
+                            type="text"
+                            name="q"
+                            placeholder="¿Qué prenda buscas?"
+                            autofocus
+                            style="flex: 1; padding: 1.2rem 2rem; border: 2px solid var(--border-color); border-radius: 50px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1.05rem; transition: all 0.3s; font-weight: 500;"
+                        >
+                        <button type="submit" style="padding: 1.2rem 2.5rem; background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: all 0.3s; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap;">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center; margin-bottom: 1.5rem;">
+                            Búsqueda popular:
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+                            <a href="{% url 'store:search' %}?q=camiseta" style="padding: 0.6rem 1.5rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; cursor: pointer;">
+                                <i class="fas fa-shirt"></i> Camiseta
+                            </a>
+                            <a href="{% url 'store:search' %}?q=running" style="padding: 0.6rem 1.5rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; cursor: pointer;">
+                                <i class="fas fa-running"></i> Running
+                            </a>
+                            <a href="{% url 'store:search' %}?q=pantalón" style="padding: 0.6rem 1.5rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; cursor: pointer;">
+                                <i class="fas fa-pants"></i> Pantalón
+                            </a>
+                            <a href="{% url 'store:search' %}?q=deportivo" style="padding: 0.6rem 1.5rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; cursor: pointer;">
+                                <i class="fas fa-dumbbell"></i> Deportivo
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mega Menu: Men -->
+    <div id="menu-men" class="mega-menu mega-menu-men">
+        <div class="mega-menu-grid">
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-mars"></i> Hombre</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?gender=M">Ver Todo Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?gender=M&is_new=true">Novedades Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?gender=M&is_sale=true">Ofertas Hombre</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mega Menu: Women -->
+    <div id="menu-women" class="mega-menu mega-menu-women">
+        <div class="mega-menu-grid">
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-venus"></i> Mujer</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?gender=F">Ver Todo Mujer</a></li>
+                    <li><a href="{% url 'store:product_list' %}?gender=F&is_new=true">Novedades Mujer</a></li>
+                    <li><a href="{% url 'store:product_list' %}?gender=F&is_sale=true">Ofertas Mujer</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mega Menu: Kids -->
+    <div id="menu-kids" class="mega-menu mega-menu-kids">
+        <div class="mega-menu-grid">
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-child"></i> Niños</h4>
+                <ul>
+                    <li><a href="{% url 'store:products_kids' %}">Ver Todo Niños</a></li>
+                    <li><a href="{% url 'store:products_kids' %}?is_new=true">Novedades Niños</a></li>
+                    <li><a href="{% url 'store:products_kids' %}?is_sale=true">Ofertas Niños</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mega Menu: Sports -->
+    <div id="menu-sports" class="mega-menu">
+        <div class="mega-menu-grid">
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-running"></i> Running</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=RUNNING">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=RUNNING&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=RUNNING&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-biking"></i> Ciclismo</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=CYCLING">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=CYCLING&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=CYCLING&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-dumbbell"></i> Fitness</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=FITNESS">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=FITNESS&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=FITNESS&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-mountain"></i> Outdoor</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=OUTDOOR">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=OUTDOOR&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=OUTDOOR&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-swimmer"></i> Natación</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=SWIMMING">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=SWIMMING&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=SWIMMING&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-bolt"></i> Training</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRAINING">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRAINING&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRAINING&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+
+            <div class="mega-menu-category">
+                <h4><i class="fas fa-medal"></i> Triatlón</h4>
+                <ul>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRIATHLON">Toda la colección</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRIATHLON&gender=M">Hombre</a></li>
+                    <li><a href="{% url 'store:product_list' %}?sport=TRIATHLON&gender=F">Mujer</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================
+     MAIN CONTENT
+     ============================================ -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ============================================
+     WEISS SPORT FOOTER
+     ============================================ -->
+{% include 'store/partials/footer.html' %}
+
+<!-- Shopping cart sidebar removed - Using cart app page instead -->
+
+<!-- ============================================
+     BOTÓN FLOTANTE - VW CONFECCIONES
+     ============================================ -->
+<div class="servicios-sidebar-widget">
+    <a href="{% url 'store:servicios' %}" class="sidebar-tab" title="VW CONFECCIONES - Nuestros Servicios">
+        <span class="sidebar-text">VW CONFECCIONES</span>
+    </a>
+</div>
+
+<!-- Weiss Sport JavaScript -->
+<script src="{% static 'js/warstki-2025.js' %}"></script>
+<script src="{% static 'js/footer.js' %}"></script>
+<script src="{% static 'js/cart-badge-updater.js' %}"></script>
+<script src="{% static 'js/theme-toggle.js' %}"></script>
+
+<!-- User Menu Toggle Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ============================================
+    // USER MENU TOGGLE
+    // ============================================
+    const userMenuToggle = document.getElementById('user-menu-toggle');
+    const userMenuPanel = document.getElementById('user-menu-panel');
+
+    if (userMenuToggle && userMenuPanel) {
+        // Toggle menu on button click
+        userMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userMenuPanel.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!userMenuToggle.contains(e.target) && !userMenuPanel.contains(e.target)) {
+                userMenuPanel.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on menu items
+        const menuItems = userMenuPanel.querySelectorAll('.user-menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                userMenuPanel.classList.remove('active');
+            });
+        });
+    }
+
+    // ============================================
+    // SEARCH MODAL TOGGLE
+    // ============================================
+    const searchToggle = document.getElementById('search-toggle');
+    const searchModal = document.getElementById('search-modal');
+    const searchClose = document.getElementById('search-close');
+    const searchInput = searchModal ? searchModal.querySelector('input[name="q"]') : null;
+
+    if (searchToggle && searchModal) {
+        // Open search modal
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchModal.classList.add('active');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        });
+
+        // Close search modal with X button
+        if (searchClose) {
+            searchClose.addEventListener('click', function() {
+                searchModal.classList.remove('active');
+            });
+        }
+
+        // Close search modal when clicking outside
+        searchModal.addEventListener('click', function(e) {
+            if (e.target === searchModal) {
+                searchModal.classList.remove('active');
+            }
+        });
+
+        // Close with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+                searchModal.classList.remove('active');
+            }
+        });
+
+        // Open with CMD+K or CTRL+K
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchModal.classList.add('active');
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }
+        });
+    }
+});
+</script>
+
+<!-- Additional page-specific scripts -->
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

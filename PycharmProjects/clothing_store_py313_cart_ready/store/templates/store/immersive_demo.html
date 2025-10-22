@@ -1,0 +1,560 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Weiss Sport - Experiencia Inmersiva 3D{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/3d-immersive.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- ============================================
+     HERO 3D SECTION - Producto Rotando
+     ============================================ -->
+<section class="hero-3d-section scroll-trigger">
+    <div id="hero-3d-product" class="hero-3d-container"></div>
+    <div class="hero-3d-content">
+        <h1 class="hero-3d-title reveal-scale">NUEVA ERA 3D</h1>
+        <p class="reveal-on-scroll" style="font-size: 1.3rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem;">
+            Experimenta nuestros productos en una dimensión completamente nueva
+        </p>
+        <a href="#configurator" class="btn-warstki-primary reveal-scale" style="animation-delay: 0.3s;">
+            Personaliza tu prenda
+            <i class="fas fa-arrow-down"></i>
+        </a>
+    </div>
+</section>
+
+<!-- ============================================
+     SCROLLYTELLING - Atletas en Acción
+     ============================================ -->
+<section class="video-scroll-section scroll-trigger" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+    <!-- FIXED: Removed video that was causing 404 error -->
+    <div class="video-overlay" style="background: rgba(0, 0, 0, 0.3);"></div>
+    <div class="scrolly-content">
+        <h2 class="scrolly-text" style="transition-delay: 0s;">
+            Diseñado por atletas
+        </h2>
+        <h2 class="scrolly-text" style="transition-delay: 0.2s;">
+            Para atletas
+        </h2>
+        <h2 class="scrolly-text" style="transition-delay: 0.4s; background: linear-gradient(135deg, #4a90e2 0%, #f39c12 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Rendimiento sin límites
+        </h2>
+    </div>
+</section>
+
+<!-- ============================================
+     CONFIGURADOR 3D INTERACTIVO
+     ============================================ -->
+<section id="configurator" class="product-configurator-section">
+  <div class="configurator-horizontal">
+
+    <!-- 🧩 VISOR 3D -->
+    <div class="viewer-column">
+      <div class="configurator-header">
+            <h2>PERSONALIZA TU PRENDA</h2>
+            <p>Experimenta con colores, vistas y texturas en tiempo real</p>
+        </div>
+      <div id="product-configurator-3d" class="viewer-canvas"></div>
+    </div>
+
+    <!-- 🎛️ PANEL DE CONTROL -->
+    <div class="controls-column">
+
+      <!-- 🎨 Paleta -->
+      <div class="control-group">
+        <span class="control-label">Color principal:</span>
+        <div class="color-palette">
+          <input type="color" id="colorPicker" value="#1e90ff">
+          <div class="palette-preview" id="palettePreview"></div>
+        </div>
+      </div>
+
+      <!-- 👁️ Vista -->
+      <div class="view-controls">
+        <span class="control-label">Vista:</span>
+        <button class="view-btn active" data-view="front">Lado A</button>
+        <button class="view-btn" data-view="back">Lado B</button>
+      </div>
+
+      <!-- 📁 Subir imagen -->
+      <div class="upload-area">
+        <label for="imageUploader" class="upload-label">📁 Subir imagen</label>
+        <input type="file" id="imageUploader" accept="image/*">
+        <canvas id="patternCanvas" width="2048" height="2048"></canvas>
+      </div>
+
+      <!-- 🛒 Agregar al Carrito -->
+      <div class="add-to-cart-section">
+        <input type="text" id="designName" placeholder="Nombre de tu diseño (opcional)" class="design-name-input">
+        <button id="addToCartBtn" class="btn-add-custom-design">
+          <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+        </button>
+        <p id="cartMessage" class="cart-message" style="display: none;"></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- ============================================
+     CALL TO ACTION FINAL
+     ============================================ -->
+<section style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); padding: 6rem 2rem; text-align: center;">
+    <div class="reveal-scale">
+        <h2 style="color: #fff; font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem;">
+            VIVE LA EXPERIENCIA COMPLETA
+        </h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2.5rem;">
+            Descubre todos nuestros productos con tecnología 3D
+        </p>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'store:product_list' %}" class="btn-warstki-primary">
+                Ver Catálogo Completo
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="{% url 'store:index' %}" class="btn-warstki-secondary">
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+</section>
+
+        <!-- ============================================
+     TECNOLOGÍA - Explosión de Capas de Tejido
+     ============================================ -->
+<section class="fabric-technology-section scroll-trigger">
+    <div class="fabric-explosion-container">
+        <h2 class="reveal-on-scroll" style="color: #fff; font-size: 3rem; font-weight: 900; text-align: center; margin-bottom: 1rem;">
+            TECNOLOGÍA MULTICAPA
+        </h2>
+        <p class="reveal-on-scroll" style="color: rgba(255,255,255,0.7); font-size: 1.2rem; text-align: center; margin-bottom: 3rem;">
+            Cinco capas de innovación trabajando en armonía
+        </p>
+
+        <div class="explosion-3d-view reveal-scale">
+            <div id="fabric-explosion-3d" class="three-container"></div>
+        </div>
+
+        <div style="text-align: center;">
+            <button id="explosion-toggle" class="explosion-toggle-btn">
+                <i class="fas fa-expand-arrows-alt"></i> Ver Capas Separadas
+            </button>
+        </div>
+
+        <div class="layer-info-panel">
+            <div class="layer-card" data-layer="0">
+                <div class="layer-icon" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">
+                    🛡️
+                </div>
+                <div class="layer-name">Protección Externa</div>
+                <div class="layer-description">
+                    Resistente al viento y agua, mantiene los elementos fuera
+                </div>
+            </div>
+
+            <div class="layer-card" data-layer="1">
+                <div class="layer-icon" style="background: linear-gradient(135deg, #004e89, #4a90e2);">
+                    💧
+                </div>
+                <div class="layer-name">Control de Humedad</div>
+                <div class="layer-description">
+                    Absorbe y evapora el sudor para mantenerte seco
+                </div>
+            </div>
+
+            <div class="layer-card" data-layer="2">
+                <div class="layer-icon" style="background: linear-gradient(135deg, #f7931e, #e74c3c);">
+                    🌡️
+                </div>
+                <div class="layer-name">Capa Térmica</div>
+                <div class="layer-description">
+                    Regula la temperatura corporal automáticamente
+                </div>
+            </div>
+
+            <div class="layer-card" data-layer="3">
+                <div class="layer-icon" style="background: linear-gradient(135deg, #1a1a1a, #4a4a4a);">
+                    💪
+                </div>
+                <div class="layer-name">Compresión</div>
+                <div class="layer-description">
+                    Soporte muscular que mejora el rendimiento
+                </div>
+            </div>
+
+            <div class="layer-card" data-layer="4">
+                <div class="layer-icon" style="background: linear-gradient(135deg, #e0e0e0, #bdbdbd);">
+                    🧵
+                </div>
+                <div class="layer-name">Contacto con Piel</div>
+                <div class="layer-description">
+                    Suave, antibacteriano y ultra cómodo
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     TIMELINE HORIZONTAL
+     ============================================ -->
+<section class="horizontal-timeline scroll-trigger">
+    <div style="position: absolute; top: 2rem; left: 50%; transform: translateX(-50%); color: #fff; text-align: center; z-index: 10;">
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem;">NUESTRA EVOLUCIÓN</h2>
+        <p style="color: rgba(255,255,255,0.6);">Scroll para ver nuestra historia</p>
+    </div>
+    <div class="timeline-track">
+        <div class="timeline-item">
+            <div class="timeline-year">2015</div>
+            <div class="timeline-content">
+                <h3>El Comienzo</h3>
+                <p>Weiss Sport nace con la visión de revolucionar la ropa deportiva, combinando tecnología y diseño.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-year">2017</div>
+            <div class="timeline-content">
+                <h3>Primera Colección Pro</h3>
+                <p>Lanzamos nuestra línea profesional con tejidos de última generación para atletas de élite.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-year">2019</div>
+            <div class="timeline-content">
+                <h3>Tecnología Multicapa</h3>
+                <p>Introducimos nuestro sistema patentado de 5 capas que maximiza el rendimiento.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-content">
+                <h3>Sostenibilidad</h3>
+                <p>100% de nuestros productos utilizan materiales reciclados y producción eco-friendly.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-content">
+                <h3>Nueva Era 3D</h3>
+                <p>Lanzamos experiencias inmersivas que permiten personalizar productos en tiempo real.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Three.js + Loaders -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+    "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js",
+    "three/examples/jsm/controls/OrbitControls.js": "https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js"
+  }
+}
+</script>
+
+<!-- Archivos locales -->
+<script type="module" src="{% static 'js/three-effects.js' %}"></script>
+<script type="module" src="{% static 'js/scrollytelling.js' %}"></script>
+<script type="module" src="{% static 'js/warstki-3d-viewer.js' %}"></script>
+
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("🚀 Inicializando configurador 3D...");
+
+  const container = document.getElementById("product-configurator-3d");
+  if (!container) {
+    console.error("❌ No se encontró el contenedor del modelo.");
+    return;
+  }
+
+  // 🎬 Escena y cámara
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 100);
+  camera.position.set(0, 1.3, 3);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  container.appendChild(renderer.domElement);
+
+  // 🌀 Controles
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.enablePan = false;
+  controls.target.set(0, 1, 0);
+
+  // 💡 Luces
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  dirLight.position.set(2, 5, 3);
+  scene.add(dirLight);
+
+  // 👕 Modelo 3D
+  const loader = new GLTFLoader();
+  let shirtMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  let model = null;
+
+  loader.load(
+    "{% static 'models/Unic.glb' %}",
+    (gltf) => {
+      model = gltf.scene;
+      model.traverse((child) => {
+        if (child.isMesh) child.material = shirtMaterial;
+      });
+
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      const maxAxis = Math.max(size.x, size.y, size.z);
+      const scale = 2 / maxAxis;
+      model.scale.setScalar(scale);
+      model.position.sub(center);
+      model.position.y -= -0.3;
+
+      scene.add(model);
+      console.log("✅ Modelo centrado y cargado correctamente.");
+    },
+    undefined,
+    (error) => console.error("Error cargando el modelo:", error)
+  );
+
+  // ⚙️ Rotación automática con pausa temporal
+  let autoRotate = true;
+  let lastInteractionTime = Date.now();
+
+  const stopAutoRotate = () => {
+    autoRotate = false;
+    lastInteractionTime = Date.now();
+  };
+
+  const resumeAutoRotate = () => {
+    if (Date.now() - lastInteractionTime > 8000) autoRotate = true;
+  };
+
+  ["mousedown", "touchstart"].forEach((evt) => {
+    window.addEventListener(evt, stopAutoRotate);
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+
+    if (autoRotate && model) model.rotation.y += 0.005;
+    else resumeAutoRotate();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ===== 🎨 Color picker =====
+  const colorPicker = document.getElementById("colorPicker");
+  const palettePreview = document.getElementById("palettePreview");
+
+  colorPicker.addEventListener("input", (e) => {
+    const selectedColor = new THREE.Color(e.target.value);
+    if (shirtMaterial) {
+      shirtMaterial.color.copy(selectedColor);
+      shirtMaterial.needsUpdate = true;
+    }
+    palettePreview.style.background = e.target.value;
+  });
+
+  // ===== 👁️ Botones de vista =====
+  document.querySelectorAll(".view-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".view-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const view = btn.dataset.view;
+      if (view === "back") camera.position.set(0, 1.2, -3);
+      else camera.position.set(0, 1.2, 3);
+      camera.lookAt(0, 1, 0);
+    });
+  });
+
+ // ===== 🖼️ Editor 2D con textura base =====
+const canvas2D = document.getElementById("patternCanvas");
+const ctx = canvas2D.getContext("2d");
+const fileInput = document.getElementById("imageUploader");
+
+let img = new Image(),
+  posX = 100,
+  posY = 100,
+  scale = 1,
+  dragging = false,
+  dragStartX = 0,
+  dragStartY = 0;
+
+// Fondo inicial
+ctx.fillStyle = "#111";
+ctx.fillRect(0, 0, canvas2D.width, canvas2D.height);
+ctx.imageSmoothingEnabled = false;
+
+// 📂 Cargar imagen
+fileInput.addEventListener("change", (e) => {
+  const reader = new FileReader();
+  reader.onload = () => (img.src = reader.result);
+  reader.readAsDataURL(e.target.files[0]);
+});
+
+img.onload = () => {
+  drawPattern();
+  updateTexture();
+};
+
+// 🎨 Dibujo de imagen
+const drawPattern = () => {
+  ctx.fillStyle = "#111";
+  ctx.fillRect(0, 0, canvas2D.width, canvas2D.height);
+
+  if (img) {
+    ctx.save(); // guarda el estado del contexto
+    ctx.imageSmoothingQuality = "high"; // mejora la nitidez
+    ctx.drawImage(img, posX, posY, img.width * scale, img.height * scale);
+    ctx.restore(); // restaura el estado
+  }
+};
+
+// 🧵 Actualizar textura en modelo 3D
+const updateTexture = () => {
+  const texture = new THREE.CanvasTexture(canvas2D);
+  texture.flipY = false;
+  texture.encoding = THREE.sRGBEncoding;
+  shirtMaterial.map = texture;
+  shirtMaterial.needsUpdate = true;
+};
+
+// ✋ Movimiento mejorado (sin límite del canvas)
+canvas2D.addEventListener("mousedown", (e) => {
+  dragging = true;
+  dragStartX = e.clientX - posX;
+  dragStartY = e.clientY - posY;
+  canvas2D.style.cursor = "grabbing";
+});
+
+window.addEventListener("mouseup", () => {
+  dragging = false;
+  canvas2D.style.cursor = "default";
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (dragging) {
+    posX = e.clientX - dragStartX;
+    posY = e.clientY - dragStartY;
+    drawPattern();
+    updateTexture();
+  }
+});
+
+// 🔍 Zoom mejorado — permite achicar hasta 10%
+canvas2D.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const zoomIntensity = 0.1;
+  scale *= e.deltaY < 0 ? 1 + zoomIntensity : 1 - zoomIntensity;
+  scale = Math.max(0.1, Math.min(scale, 5)); // puede hacerse más pequeño
+  drawPattern();
+  updateTexture();
+});
+
+// ============================================
+// 🛒 ADD TO CART FUNCTIONALITY
+// ============================================
+const addToCartBtn = document.getElementById('addToCartBtn');
+const designNameInput = document.getElementById('designName');
+const cartMessage = document.getElementById('cartMessage');
+
+addToCartBtn.addEventListener('click', async function() {
+  try {
+    // Get design data
+    const designName = designNameInput.value.trim() || 'Diseño Personalizado Weiss Sport';
+    const colorInput = document.getElementById('colorPicker');
+    const selectedColor = colorInput.value;
+
+    // Get canvas image
+    const patternCanvas = document.getElementById('patternCanvas');
+    const designImage = patternCanvas.toDataURL('image/png');
+
+    // Create custom product data
+    const customDesign = {
+      id: 'custom-' + Date.now(),
+      name: designName,
+      price: 89.99, // Default price for custom designs
+      color: selectedColor,
+      designImage: designImage,
+      isCustom: true,
+      quantity: 1
+    };
+
+    // Get cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cs_cart_v1') || '[]');
+
+    // Check if similar design already exists
+    const existingIndex = cart.findIndex(item =>
+      item.isCustom && item.id === customDesign.id
+    );
+
+    if (existingIndex >= 0) {
+      cart[existingIndex].quantity += 1;
+    } else {
+      cart.push(customDesign);
+    }
+
+    // Save to localStorage
+    localStorage.setItem('cs_cart_v1', JSON.stringify(cart));
+
+    // Show success message
+    showMessage('✅ Diseño agregado al carrito exitosamente!', 'success');
+
+    // Reset form
+    setTimeout(() => {
+      designNameInput.value = '';
+    }, 1500);
+
+    // Update cart badge if it exists
+    if (window.updateCartBadge) {
+      window.updateCartBadge();
+    }
+
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    showMessage('❌ Error al agregar el diseño. Intenta de nuevo.', 'error');
+  }
+});
+
+// Show/hide message function
+function showMessage(text, type) {
+  cartMessage.textContent = text;
+  cartMessage.className = 'cart-message ' + type;
+  cartMessage.style.display = 'block';
+
+  setTimeout(() => {
+    cartMessage.style.display = 'none';
+  }, 3500);
+}
+
+// Disable button while form is incomplete
+function validateForm() {
+  const hasDesign = document.getElementById('imageUploader').files.length > 0 ||
+                    document.getElementById('patternCanvas').toDataURL() !== canvas2D.toDataURL();
+  addToCartBtn.disabled = !hasDesign && !designNameInput.value.trim();
+}
+
+designNameInput.addEventListener('input', validateForm);
+document.getElementById('imageUploader').addEventListener('change', validateForm);
+
+});
+</script>
+{% endblock %}

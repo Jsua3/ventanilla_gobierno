@@ -1,0 +1,233 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Resultados de búsqueda - {{ search_query }} | WEISS sport{% endblock %}
+
+{% block content %}
+
+<!-- ============================================
+     SEARCH RESULTS PAGE
+     ============================================ -->
+<section class="warstki-section" style="padding-top: 8rem; padding-bottom: 4rem;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+
+        <!-- Search Header -->
+        <div class="search-header reveal-on-scroll" style="text-align: center; margin-bottom: 4rem;">
+            <h1 class="section-title-warstki text-gradient-warstki">
+                Resultados de Búsqueda
+            </h1>
+            <p class="section-subtitle">
+                {% if search_query %}
+                    <strong>"{{ search_query }}"</strong> - Se encontraron <strong>{{ product_count }}</strong> producto{% if product_count != 1 %}s{% endif %}
+                {% else %}
+                    Ingresa un término de búsqueda
+                {% endif %}
+            </p>
+
+            <!-- New Search Form -->
+            <form method="get" action="{% url 'store:search' %}" style="max-width: 600px; margin: 2rem auto; display: flex; gap: 1rem;">
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Buscar productos..."
+                    value="{{ search_query }}"
+                    required
+                    style="flex: 1; padding: 1rem 1.5rem; border: 2px solid var(--border-color); border-radius: 50px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem; transition: all 0.3s;"
+                >
+                <button type="submit" class="btn-warstki-primary" style="white-space: nowrap;">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </form>
+        </div>
+
+        <!-- Results Grid -->
+        {% if products %}
+            <div class="product-grid-minimal" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 4rem;">
+                {% for product in products %}
+                <div class="product-card-minimal reveal-on-scroll"
+                     data-product-id="{{ product.id }}"
+                     data-product-name="{{ product.name }}"
+                     data-product-price="{{ product.get_final_price }}"
+                     style="animation-delay: {{ forloop.counter0|add:0.05 }}s;">
+
+                    <a href="{% url 'store:product_detail' product.slug %}" style="text-decoration: none; color: inherit;">
+                        <!-- Imagen Principal -->
+                        <div class="product-image-minimal">
+                            <div class="image-container" style="position: relative; background: var(--bg-secondary); border-radius: 12px; overflow: hidden;">
+                                <img src="{{ product.image_main.url }}" alt="{{ product.name }}" loading="lazy" class="product-img-main" style="width: 100%; height: 320px; object-fit: cover; display: block;">
+
+                                <!-- Badges -->
+                                {% if product.get_discount_percentage or product.is_new %}
+                                <div style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 0.5rem;">
+                                    {% if product.is_new %}
+                                    <span style="background: var(--warstki-blue); color: white; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0, 71, 171, 0.3);">NUEVO</span>
+                                    {% endif %}
+                                    {% if product.get_discount_percentage %}
+                                    <span style="background: linear-gradient(135deg, var(--warstki-orange), #FF8A00); color: white; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);">-{{ product.get_discount_percentage }}%</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                <!-- Category Badge -->
+                                <div style="position: absolute; bottom: 12px; left: 12px;">
+                                    <a href="{% url 'store:category_detail' product.category.slug %}" style="display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0, 71, 171, 0.3); transition: all 0.3s;">
+                                        <i class="fas fa-tag"></i> {{ product.category.name }}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Tamaños -->
+                            {% if product.sizes %}
+                            <div class="sizes-selector" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                {% for size in product.sizes|slice:":6" %}
+                                <button class="size-btn" style="padding: 0.5rem 0.75rem; border: 1.5px solid var(--border-color); background: var(--bg-primary); border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: all var(--transition-fast); color: var(--text-primary);" onclick="event.preventDefault(); event.stopPropagation();">
+                                    {{ size }}
+                                </button>
+                                {% endfor %}
+                                {% if product.sizes|length > 6 %}
+                                <span style="padding: 0.5rem 0.75rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">+{{ product.sizes|length|add:-6 }}</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Info del Producto -->
+                        <div class="product-info-minimal" style="padding: 1.2rem 0;">
+                            <!-- Título -->
+                            <h3 style="margin: 0 0 0.8rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4;">
+                                {{ product.name }}
+                            </h3>
+
+                            <!-- Precio -->
+                            <div class="price-section" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span class="product-price" style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary);">
+                                    ${{ product.get_final_price|floatformat:0 }}
+                                </span>
+                                {% if product.discount_price %}
+                                <span class="product-price-old" style="font-size: 0.9rem; color: #999; text-decoration: line-through;">
+                                    ${{ product.price|floatformat:0 }}
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Botón Agregar al Carrito -->
+                            <button class="btn-add-to-cart-minimal"
+                                    onclick="event.preventDefault(); event.stopPropagation(); window.addProductToCart('{{ product.id }}', '{{ product.name|escapejs }}', {{ product.get_final_price }}, '{{ product.image_main.url }}');"
+                                    style="width: 100%; padding: 0.75rem 1rem; background: #000; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <i class="fas fa-shopping-cart"></i> AGREGAR AL CARRITO
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-search-state reveal-on-scroll" style="text-align: center; padding: 6rem 2rem;">
+                <div style="font-size: 5rem; margin-bottom: 2rem; color: var(--text-secondary);">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                {% if search_query %}
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
+                        No hay resultados para "{{ search_query }}"
+                    </h2>
+                    <p style="font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2.5rem;">
+                        Intenta con otras palabras clave o explora nuestras categorías
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="{% url 'store:product_list' %}" class="btn-warstki-primary">
+                            <i class="fas fa-th"></i> Ver Todos los Productos
+                        </a>
+                        <a href="{% url 'store:index' %}" class="btn-warstki-secondary btn-secondary-theme">
+                            <i class="fas fa-home"></i> Ir al Inicio
+                        </a>
+                    </div>
+                {% else %}
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
+                        ¿Qué estás buscando?
+                    </h2>
+                    <p style="font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2.5rem;">
+                        Usa la barra de búsqueda para encontrar tus productos favoritos
+                    </p>
+                    <a href="{% url 'store:product_list' %}" class="btn-warstki-primary">
+                        <i class="fas fa-th"></i> Ver Catálogo Completo
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<style>
+/* Estilos responsivos para la página de búsqueda */
+@media (max-width: 1399px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 1199px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-header {
+        margin-bottom: 2.5rem !important;
+    }
+
+    .section-title-warstki {
+        font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+    }
+
+    .product-grid-minimal {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+
+    .product-card-minimal {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid-minimal {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .product-card-minimal {
+        padding: 0.8rem;
+    }
+
+    .empty-search-state {
+        padding: 3rem 1rem !important;
+    }
+
+    .empty-search-state h2 {
+        font-size: 1.4rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid-minimal {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+    }
+
+    .product-card-minimal {
+        padding: 0.6rem;
+    }
+}
+</style>
+
+{% endblock %}

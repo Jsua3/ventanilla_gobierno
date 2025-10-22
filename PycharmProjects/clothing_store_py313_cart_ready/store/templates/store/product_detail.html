@@ -1,0 +1,857 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - {{ config.store_name|default:"Clothing Store" }}{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="warstki-section" style="padding: 8rem 0 2rem; background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));">
+    <div class="section-shape blue"></div>
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="reveal-on-scroll" style="margin-bottom: 2rem;">
+            <ol class="breadcrumb-warstki">
+                <li><a href="{% url 'store:index' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="{% url 'store:product_list' %}">Productos</a></li>
+                <li><a href="{% url 'store:category_detail' product.category.slug %}">{{ product.category.name }}</a></li>
+                <li class="active">{{ product.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="warstki-section" style="padding: 3rem 0;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div class="product-detail-grid">
+            <!-- Galería de Imágenes -->
+            <div class="product-detail-gallery reveal-left">
+                <div class="main-image-container">
+                    <img src="{{ product.image_main.url }}" class="main-image-detail" id="mainProductImage" alt="{{ product.name }}">
+
+                    <!-- Badges en la imagen -->
+                    <div class="product-detail-badges">
+                        {% if product.is_new %}
+                        <span class="badge-warstki badge-new">
+                            <i class="fas fa-star"></i> Nuevo
+                        </span>
+                        {% endif %}
+                        {% if product.is_featured %}
+                        <span class="badge-warstki badge-performance">
+                            <i class="fas fa-crown"></i> Featured
+                        </span>
+                        {% endif %}
+                        {% if product.get_discount_percentage %}
+                        <span class="badge-warstki badge-sale">
+                            -{{ product.get_discount_percentage }}%
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="thumbnails-container">
+                    <div class="thumbnail-item active" data-image="{{ product.image_main.url }}">
+                        <img src="{{ product.image_main.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% if product.image_2 %}
+                    <div class="thumbnail-item" data-image="{{ product.image_2.url }}">
+                        <img src="{{ product.image_2.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                    {% if product.image_3 %}
+                    <div class="thumbnail-item" data-image="{{ product.image_3.url }}">
+                        <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                    {% if product.image_4 %}
+                    <div class="thumbnail-item" data-image="{{ product.image_4.url }}">
+                        <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Información del Producto -->
+            <div class="product-detail-info reveal-right">
+                <!-- Sport Tag -->
+                {% if product.sport %}
+                <div class="product-sport-tag-detail">
+                    <i class="fas fa-{% if product.sport == 'RUNNING' %}running{% elif product.sport == 'CYCLING' %}biking{% elif product.sport == 'FITNESS' %}dumbbell{% elif product.sport == 'YOGA' %}spa{% else %}bolt{% endif %}"></i>
+                    {{ product.get_sport_display }}
+                </div>
+                {% endif %}
+
+                <h1 class="product-detail-title">{{ product.name }}</h1>
+                <p class="product-detail-category">{{ product.category.name }}</p>
+
+                <!-- Precio -->
+                <div class="product-detail-price-section">
+                    <div class="price-display">
+                        <span class="current-price">${{ product.get_final_price|floatformat:0 }}</span>
+                        {% if product.discount_price %}
+                        <span class="old-price">${{ product.price|floatformat:0 }}</span>
+                        <span class="discount-badge">¡Ahorra ${{ product.price|add:"-"|add:product.discount_price|floatformat:0 }}!</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="product-description-section">
+                    <h5 class="section-subtitle-small">Descripción</h5>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">{{ product.description|linebreaks }}</p>
+                </div>
+
+                <!-- Product Meta Info -->
+                {% if product.weight_grams or product.uv_protection or product.fit_type %}
+                <div class="product-features-grid">
+                    {% if product.weight_grams %}
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-feather"></i>
+                        </div>
+                        <div class="feature-content">
+                            <span class="feature-label">Peso</span>
+                            <span class="feature-value">{{ product.weight_grams }}g</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if product.uv_protection %}
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="feature-content">
+                            <span class="feature-label">Protección UV</span>
+                            <span class="feature-value">{{ product.uv_protection }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if product.fit_type %}
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <span class="feature-label">Ajuste</span>
+                            <span class="feature-value">{{ product.get_fit_type_display }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Tallas -->
+                {% if sizes %}
+                <div class="product-options-section">
+                    <h5 class="section-subtitle-small">Talla</h5>
+                    <div class="size-selector-grid">
+                        {% for size in sizes %}
+                        <input type="radio" class="size-radio" name="size" id="size{{ forloop.counter }}" value="{{ size }}" {% if forloop.first %}checked{% endif %}>
+                        <label class="size-label" for="size{{ forloop.counter }}">{{ size|upper }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Colores -->
+                {% if colors %}
+                <div class="product-options-section">
+                    <h5 class="section-subtitle-small">Color</h5>
+                    <div class="color-selector-grid">
+                        {% for color in colors %}
+                        <input type="radio" class="color-radio" name="color" id="color{{ forloop.counter }}" value="{{ color }}" {% if forloop.first %}checked{% endif %}>
+                        <label class="color-label" for="color{{ forloop.counter }}">{{ color }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Stock -->
+                <div class="stock-indicator">
+                    {% if product.stock > 0 %}
+                    <span class="stock-badge in-stock">
+                        <i class="fas fa-check-circle"></i> En stock ({{ product.stock }} disponibles)
+                    </span>
+                    {% else %}
+                    <span class="stock-badge out-of-stock">
+                        <i class="fas fa-times-circle"></i> Agotado
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="product-actions">
+                    <!-- Selector de cantidad -->
+                    <div class="quantity-selector">
+                        <label for="qty" class="quantity-label">Cantidad:</label>
+                        <div class="quantity-input-group">
+                            <button type="button" class="qty-btn qty-minus" onclick="decreaseQty()" {% if product.stock == 0 %}disabled{% endif %}>
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" name="qty" id="qty" value="1" min="1" max="{{ product.stock }}"
+                                   class="qty-input" {% if product.stock == 0 %}disabled{% endif %} readonly>
+                            <button type="button" class="qty-btn qty-plus" onclick="increaseQty()" {% if product.stock == 0 %}disabled{% endif %}>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-grid">
+                        <button type="button"
+                                class="btn-warstki-primary btn-add-to-cart-detail"
+                                onclick="window.addProductToCart('{{ product.id }}', '{{ product.name|escapejs }}', {{ product.get_final_price }}, '{{ product.image_main.url }}', document.getElementById('qty').value)"
+                                {% if product.stock == 0 %}disabled{% endif %}>
+                            <i class="fas fa-shopping-cart"></i>
+                            Añadir al Carrito
+                        </button>
+
+                        <button type="button" class="btn-warstki-secondary btn-back" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                            Volver
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Información adicional -->
+                <div class="product-info-accordion">
+                    <div class="accordion-item-warstki">
+                        <button class="accordion-header-warstki active" type="button" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-shipping-fast"></i> Información de Envío</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content-warstki" style="display: block;">
+                            <p>{{ config.shipping_info|default:"Envío gratis en compras superiores a $100.000. Tiempo de entrega: 3-5 días hábiles." }}</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item-warstki">
+                        <button class="accordion-header-warstki" type="button" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-undo-alt"></i> Política de Devoluciones</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content-warstki">
+                            <p>{{ config.return_policy|default:"30 días para devoluciones. El producto debe estar en su empaque original con todas las etiquetas." }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Productos relacionados -->
+{% if related_products %}
+<section class="warstki-section dark" style="padding: 5rem 0;">
+    <div class="section-shape orange"></div>
+    <div class="container" style="max-width: 1600px; margin: 0 auto; padding: 0 2rem;">
+        <h2 class="section-title-warstki text-gradient-warstki reveal-on-scroll">Productos Relacionados</h2>
+        <p class="section-subtitle reveal-on-scroll">También te podría interesar</p>
+
+        <div class="product-grid-warstki">
+            {% for product in related_products %}
+            <div class="product-card-warstki reveal-on-scroll" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
+                <a href="{% url 'store:product_detail' product.slug %}" style="text-decoration: none; color: inherit;">
+                    <div class="product-image-warstki">
+                        <img src="{{ product.image_main.url }}" alt="{{ product.name }}" loading="lazy">
+
+                        <div class="product-badges-warstki">
+                            <div>
+                                {% if product.is_new %}
+                                <span class="badge-warstki badge-new">
+                                    <i class="fas fa-star"></i> Nuevo
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if product.get_discount_percentage %}
+                                <span class="badge-warstki badge-sale">
+                                    -{{ product.get_discount_percentage }}%
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-info-warstki">
+                        <div class="product-sport-tag">
+                            <i class="fas fa-tshirt"></i>
+                            {{ product.category.name }}
+                        </div>
+
+                        <h3 class="product-name-warstki">{{ product.name }}</h3>
+
+                        <div class="product-price-row-warstki">
+                            <div>
+                                <span class="product-price-warstki">
+                                    ${{ product.get_final_price|floatformat:0 }}
+                                </span>
+                                {% if product.discount_price %}
+                                <span class="product-price-old">
+                                    ${{ product.price|floatformat:0 }}
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <button class="add-to-cart-btn"
+                                    onclick="event.preventDefault(); event.stopPropagation(); window.addProductToCart('{{ product.id }}', '{{ product.name|escapejs }}', {{ product.get_final_price }}, '{{ product.image_main.url }}');"
+                                    title="Agregar al carrito">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Breadcrumb Styles */
+.breadcrumb-warstki {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.breadcrumb-warstki li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.breadcrumb-warstki li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.breadcrumb-warstki li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumb-warstki li a:hover {
+    color: var(--warstki-blue);
+}
+
+.breadcrumb-warstki li.active {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Product Detail Grid */
+.product-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+}
+
+/* Gallery Styles */
+.product-detail-gallery {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+}
+
+.main-image-container {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    aspect-ratio: 1;
+}
+
+.main-image-detail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.main-image-container:hover .main-image-detail {
+    transform: scale(1.05);
+}
+
+.product-detail-badges {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.thumbnails-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.thumbnail-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s;
+}
+
+.thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-item:hover {
+    border-color: var(--warstki-blue);
+    transform: translateY(-3px);
+}
+
+.thumbnail-item.active {
+    border-color: var(--warstki-blue);
+    box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.2);
+}
+
+/* Product Info Styles */
+.product-sport-tag-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.1), rgba(255, 107, 53, 0.1));
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--warstki-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+}
+
+.product-detail-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
+
+.product-detail-category {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.product-detail-price-section {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(0, 71, 171, 0.05), rgba(255, 107, 53, 0.05));
+    border-radius: 20px;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.current-price {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 900;
+    font-family: var(--font-display);
+    background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.old-price {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.discount-badge {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+    color: #ef4444;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.section-subtitle-small {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.product-description-section {
+    margin-bottom: 2.5rem;
+}
+
+/* Features Grid */
+.product-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s;
+}
+
+.feature-item:hover {
+    border-color: var(--warstki-blue);
+    transform: translateY(-3px);
+}
+
+.feature-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--warstki-blue), #0056D2);
+    border-radius: 12px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.feature-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.feature-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Product Options */
+.product-options-section {
+    margin-bottom: 2rem;
+}
+
+.size-selector-grid,
+.color-selector-grid {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.size-radio,
+.color-radio {
+    display: none;
+}
+
+.size-label,
+.color-label {
+    padding: 0.9rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.size-label:hover,
+.color-label:hover {
+    border-color: var(--warstki-blue);
+    background: rgba(0, 71, 171, 0.1);
+}
+
+.size-radio:checked + .size-label,
+.color-radio:checked + .color-label {
+    background: linear-gradient(135deg, var(--warstki-blue), #0056D2);
+    color: white;
+    border-color: var(--warstki-blue);
+    transform: scale(1.05);
+}
+
+/* Stock Indicator */
+.stock-indicator {
+    margin-bottom: 2rem;
+}
+
+.stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.stock-badge.in-stock {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15));
+    color: #10b981;
+}
+
+.stock-badge.out-of-stock {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15));
+    color: #ef4444;
+}
+
+/* Product Actions */
+.product-actions {
+    margin-bottom: 2.5rem;
+}
+
+.quantity-selector {
+    margin-bottom: 1.5rem;
+}
+
+.quantity-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.quantity-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: fit-content;
+}
+
+.qty-btn {
+    width: 45px;
+    height: 45px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-minus {
+    border-radius: 10px 0 0 10px;
+}
+
+.qty-plus {
+    border-radius: 0 10px 10px 0;
+}
+
+.qty-btn:hover:not(:disabled) {
+    background: var(--warstki-blue);
+    color: white;
+    border-color: var(--warstki-blue);
+}
+
+.qty-input {
+    width: 80px;
+    height: 45px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-left: none;
+    border-right: none;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+}
+
+.action-buttons-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+.btn-add-to-cart-detail {
+    width: 100%;
+}
+
+.btn-back {
+    width: 100%;
+}
+
+/* Accordion Styles */
+.product-info-accordion {
+    margin-top: 2.5rem;
+}
+
+.accordion-item-warstki {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.accordion-header-warstki {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
+
+.accordion-header-warstki:hover {
+    background: rgba(0, 71, 171, 0.05);
+}
+
+.accordion-header-warstki span {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.accordion-icon {
+    transition: transform 0.3s;
+    color: var(--warstki-blue);
+}
+
+.accordion-header-warstki.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content-warstki {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .product-detail-gallery {
+        position: relative;
+        top: 0;
+    }
+
+    .action-buttons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .thumbnails-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .product-features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Cambiar imagen principal al hacer clic en las miniaturas
+document.querySelectorAll('.thumbnail-item').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        // Remove active class from all thumbnails
+        document.querySelectorAll('.thumbnail-item').forEach(t => t.classList.remove('active'));
+
+        // Add active class to clicked thumbnail
+        this.classList.add('active');
+
+        // Change main image
+        const newImageSrc = this.dataset.image;
+        document.getElementById('mainProductImage').src = newImageSrc;
+    });
+});
+
+// Quantity controls
+function increaseQty() {
+    const qtyInput = document.getElementById('qty');
+    const currentValue = parseInt(qtyInput.value);
+    const maxValue = parseInt(qtyInput.max);
+
+    if (currentValue < maxValue) {
+        qtyInput.value = currentValue + 1;
+    }
+}
+
+function decreaseQty() {
+    const qtyInput = document.getElementById('qty');
+    const currentValue = parseInt(qtyInput.value);
+    const minValue = parseInt(qtyInput.min);
+
+    if (currentValue > minValue) {
+        qtyInput.value = currentValue - 1;
+    }
+}
+
+// Accordion toggle
+function toggleAccordion(button) {
+    const content = button.nextElementSibling;
+    const isActive = button.classList.contains('active');
+
+    // Close all accordions
+    document.querySelectorAll('.accordion-header-warstki').forEach(header => {
+        header.classList.remove('active');
+        header.nextElementSibling.style.display = 'none';
+    });
+
+    // Open clicked accordion if it wasn't active
+    if (!isActive) {
+        button.classList.add('active');
+        content.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

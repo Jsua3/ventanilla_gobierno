@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Segoe UI; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 8px; }
+        .header { background: linear-gradient(135deg, #00a8ff 0%, #0047ab 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h1>Tu pedido ha sido enviado!</h1></div>
+        <div class="content">
+            <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">Hola {{ customer_name }},</p>
+            <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">Tu pedido {{ order_number }} ha sido despachado y está en camino hacia ti. Pronto recibiras los detalles de seguimiento.</p>
+            <p style="color: #666; font-size: 13px;">Gracias por tu compra!<br>Weiss Sport</p>
+        </div>
+    </div>
+</body>
+</html>

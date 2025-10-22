@@ -1,0 +1,63 @@
+/* Color Picker Styles for Django Admin */
+
+.field-color_primary input[type="text"],
+.field-color_background input[type="text"],
+.field-color_cards input[type="text"],
+.field-color_navbar input[type="text"],
+.field-color_footer input[type="text"],
+.field-color_text input[type="text"],
+.field-color_text_secondary input[type="text"],
+.field-color_icons input[type="text"] {
+    width: 120px !important;
+    padding: 5px 10px;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.color-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-preview:hover {
+    transform: scale(1.1);
+    border-color: #417690;
+}
+
+/* Mejorar la visualización de los fieldsets de colores */
+.fieldset-color_customization {
+    background: #f8f9fa;
+    border-left: 4px solid #417690;
+}
+
+.fieldset-opacity {
+    background: #fff9e6;
+    border-left: 4px solid #ffc107;
+}
+
+.fieldset-background_image {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+}
+
+/* Mejoras para inputs de opacidad */
+input[type="number"][id*="opacity"] {
+    width: 100px !important;
+}
+
+/* Preview de imagen de fondo */
+.field-background_image img {
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

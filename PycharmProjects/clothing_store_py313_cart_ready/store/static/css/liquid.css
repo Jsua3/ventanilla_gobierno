@@ -1,0 +1,15 @@
+﻿/* Liquid Glass */
+:root{
+  --lg-bg: radial-gradient(1200px 800px at 10% 10%, #0ea5e955 0%, transparent 60%),
+           radial-gradient(1000px 700px at 90% 20%, #22d3ee44 0%, transparent 55%),
+           radial-gradient(900px 700px at 50% 90%, #1e293b66 0%, transparent 60%);
+  --lg-surface: rgba(255,255,255,0.10);
+  --lg-stroke: rgba(255,255,255,0.22);
+  --lg-primary: #0ea5e9; --lg-secondary:#22d3ee; --lg-text:#e6f1ff;
+}
+body{ background:#0b1220; color:var(--lg-text); }
+.lg-background{ position:fixed; inset:0; z-index:-1; background:var(--lg-bg); filter:saturate(1.1); }
+.lg-glass{ background:var(--lg-surface); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border:1px solid var(--lg-stroke); border-radius:18px; box-shadow:0 8px 32px rgba(2,6,23,.35); }
+.btn-lg{ background:linear-gradient(135deg, var(--lg-primary), var(--lg-secondary)); color:#06131f; font-weight:600; border:none; border-radius:14px; padding:10px 16px; box-shadow:0 6px 18px rgba(34,211,238,.25); }
+.btn-ghost{ background: rgba(255,255,255,.06); color:var(--lg-text); border:1px solid var(--lg-stroke); border-radius:14px; padding:10px 16px; }
+#cart-badge{ background:#ef4444; color:#fff; font-weight:700; border-radius:999px; padding:0 6px; font-size:12px; margin-left:6px; display:none; }

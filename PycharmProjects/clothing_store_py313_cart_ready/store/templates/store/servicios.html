@@ -1,0 +1,271 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}VW CONFECCIONES - WEISS sport | Soluciones Textiles Integrales{% endblock %}
+
+{% block content %}
+
+<!-- ============================================
+     SERVICIOS HERO SECTION
+     ============================================ -->
+<section class="servicios-hero-section" style="position: relative; min-height: 70vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); object-fit: cover; z-index: 0;">
+        <source src="/media/videos_servicios/Taller1.mp4" type="video/mp4">
+    </video>
+
+    <!-- Video Overlay -->
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,71,171,0.85), rgba(255,107,53,0.75)); z-index: 1;"></div>
+
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; position: relative; z-index: 1; text-align: center;">
+        <div class="reveal-scale">
+            <div style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.15); border-radius: 50px; margin-bottom: 2rem; backdrop-filter: blur(10px);">
+                <i class="fas fa-concierge-bell" style="font-size: 1.2rem; color: white;"></i>
+                <span style="color: white; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;">Soluciones Textiles</span>
+            </div>
+
+            <h1 style="font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; color: white; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -0.02em;">
+                <span style="background: linear-gradient(135deg, #FFD700, var(--warstki-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">VW CONFECCIONES</span>
+            </h1>
+
+            <p style="font-size: clamp(1.1rem, 3vw, 1.3rem); color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto 3rem; line-height: 1.6;">
+                En <strong>WEISS sport</strong> ofrecemos servicios textiles integrales: desde el diseño y corte técnico hasta la confección, acabados y entrega final.
+            </p>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#servicios-lista" class="btn-warstki-primary" style="background: white; color: var(--warstki-blue);">
+                    Explorar Nuestros Servicios
+                    <i class="fas fa-arrow-down"></i>
+                </a>
+                <a href="#contacto" class="btn-warstki-secondary" style="border-color: white; color: white;">
+                    Solicitar Cotización
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <span class="scroll-indicator-text" style="color: white;">Descubre Más</span>
+        <i class="fas fa-chevron-down scroll-indicator-icon" style="color: white;"></i>
+    </div>
+</section>
+
+<!-- ============================================
+     SERVICIOS DETALLADOS
+     ============================================ -->
+<section id="servicios-lista" class="warstki-section">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+
+        {% for service in services %}
+        <div class="servicio-bloque reveal-on-scroll" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 8rem;">
+            <!-- Contenido del servicio -->
+            <div {% if service.layout_reverse %}style="order: 2;"{% endif %}>
+                <div style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, rgba(0,71,171,0.1), rgba(255,107,53,0.1)); border-radius: 50px; margin-bottom: 1.5rem;">
+                    <i class="{{ service.icon }}" style="font-size: 1.3rem; color: var(--warstki-blue);"></i>
+                    <span style="font-weight: 700; font-size: 0.85rem; color: var(--warstki-blue); letter-spacing: 0.05em; text-transform: uppercase;">{{ service.name }}</span>
+                </div>
+                <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: var(--text-primary); margin-bottom: 1.5rem; line-height: 1.2;">
+                    {{ service.name }}
+                </h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                    {{ service.description }}
+                </p>
+                <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+                    {% if service.feature_1 %}
+                    <li style="display: flex; align-items: start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--warstki-green); font-size: 1.3rem; margin-top: 0.2rem;"></i>
+                        <span style="color: var(--text-secondary);">{{ service.feature_1 }}</span>
+                    </li>
+                    {% endif %}
+                    {% if service.feature_2 %}
+                    <li style="display: flex; align-items: start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--warstki-green); font-size: 1.3rem; margin-top: 0.2rem;"></i>
+                        <span style="color: var(--text-secondary);">{{ service.feature_2 }}</span>
+                    </li>
+                    {% endif %}
+                    {% if service.feature_3 %}
+                    <li style="display: flex; align-items: start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--warstki-green); font-size: 1.3rem; margin-top: 0.2rem;"></i>
+                        <span style="color: var(--text-secondary);">{{ service.feature_3 }}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Video/Imagen del servicio -->
+            <div style="position: relative; border-radius: var(--card-radius); overflow: hidden; box-shadow: var(--shadow-xl); {% if service.layout_reverse %}order: 1;{% endif %}">
+                {% if forloop.counter == 1 %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/completo.mp4" type="video/mp4">
+                    </video>
+                {% elif forloop.counter == 2 %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/hilo.mp4" type="video/mp4">
+                    </video>
+                {% elif forloop.counter == 3 %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/sublimacion.mp4" type="video/mp4">
+                    </video>
+                {% elif forloop.counter == 4 %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/Soccer.mp4" type="video/mp4">
+                    </video>
+                {% elif forloop.counter == 5 %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/Tijeras.mp4" type="video/mp4">
+                    </video>
+                {% elif service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}" style="width: 100%; height: 500px; object-fit: cover;">
+                {% else %}
+                    <video autoplay muted loop playsinline style="width: 100%; height: 500px; object-fit: cover;">
+                        <source src="/media/videos_servicios/Woman6.mp4" type="video/mp4">
+                    </video>
+                {% endif %}
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent);">
+                    <span style="color: white; font-size: 0.9rem; opacity: 0.8;">{{ service.name }}</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 4rem 2rem;">
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">No hay servicios disponibles en este momento.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- ============================================
+     VIDEO SHOWCASE - PROCESO DE CONFECCIÓN
+     ============================================ -->
+<section class="warstki-section" style="background: var(--bg-secondary); padding: 6rem 0;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 class="reveal-on-scroll" style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: var(--text-primary); margin-bottom: 1rem;">
+                Nuestro Proceso en Acción
+            </h2>
+            <p class="reveal-on-scroll" style="font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+                Mira cómo transformamos tus ideas en realidad con nuestro equipo especializado
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+            <!-- Video 1: Acompañamiento -->
+            <div class="reveal-scale" style="position: relative; border-radius: var(--card-radius); overflow: hidden; box-shadow: var(--shadow-xl);">
+                <video autoplay muted loop playsinline style="width: 100%; height: 400px; object-fit: cover;">
+                    <source src="/media/videos_servicios/acompañamiento.mp4" type="video/mp4">
+                </video>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(0deg, rgba(0,0,0,0.95), transparent);">
+                    <h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
+                        <i class="fas fa-hands-helping" style="color: var(--warstki-orange); margin-right: 0.5rem;"></i>
+                        Acompañamiento Personalizado
+                    </h3>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin: 0;">
+                        Te guiamos en cada etapa del proceso
+                    </p>
+                </div>
+            </div>
+
+            <!-- Video 2: Basket -->
+            <div class="reveal-scale" style="position: relative; border-radius: var(--card-radius); overflow: hidden; box-shadow: var(--shadow-xl);">
+                <video autoplay muted loop playsinline style="width: 100%; height: 400px; object-fit: cover;">
+                    <source src="/media/videos_servicios/Basket.mp4" type="video/mp4">
+                </video>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(0deg, rgba(0,0,0,0.95), transparent);">
+                    <h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
+                        <i class="fas fa-trophy" style="color: var(--warstki-orange); margin-right: 0.5rem;"></i>
+                        Uniformes Deportivos
+                    </h3>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin: 0;">
+                        Calidad profesional para equipos
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA SECTION - SOLICITA COTIZACIÓN
+     ============================================ -->
+<section class="warstki-section dark" style="background: linear-gradient(135deg, var(--warstki-blue), var(--warstki-orange)); padding: 6rem 0;">
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+        <h2 class="reveal-on-scroll" style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: white; margin-bottom: 1.5rem;">
+            ¿Listo para tu próximo proyecto?
+        </h2>
+        <p class="reveal-on-scroll" style="font-size: 1.2rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto 3rem;">
+            Solicita una cotización personalizada y descubre cómo podemos ayudarte a materializar tus ideas textiles.
+        </p>
+        <div class="reveal-scale" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+            <a href="mailto:{{ config.email }}" class="btn-warstki-primary" style="background: white; color: var(--warstki-blue);">
+                <i class="fas fa-envelope"></i>
+                Enviar Email
+            </a>
+            {% if config.whatsapp %}
+            <a href="https://wa.me/{{ config.whatsapp }}" target="_blank" class="btn-warstki-primary" style="background: #25D366; border: none;">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Video Styling */
+video {
+    display: block;
+}
+
+/* Smooth video loading */
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .servicio-bloque {
+        grid-template-columns: 1fr !important;
+    }
+
+    .servicio-bloque > div {
+        order: 0 !important;
+    }
+
+    /* Adjust video heights on tablet */
+    .servicio-bloque video,
+    .servicio-bloque img {
+        height: 400px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Adjust video heights on mobile */
+    .servicio-bloque video,
+    .servicio-bloque img {
+        height: 300px !important;
+    }
+
+    /* Adjust showcase videos */
+    .warstki-section video {
+        height: 300px !important;
+    }
+
+    /* Hero video adjustments */
+    .servicios-hero-section {
+        min-height: 60vh !important;
+    }
+}
+
+/* Dark mode support for video sections */
+body.dark-mode .warstki-section {
+    background: var(--bg-secondary);
+}
+</style>
+{% endblock %}
