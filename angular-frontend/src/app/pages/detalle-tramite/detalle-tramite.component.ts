@@ -23,7 +23,7 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge.compo
             <div>
               <p class="font-mono text-sm text-gray-500">{{ tramite()!.codigo }}</p>
               <h1 class="text-xl font-bold text-gray-900 mt-1">{{ tramite()!.tipoTramiteNombre }}</h1>
-              <p class="text-sm text-gray-500">{{ tramite()!.entidadNombre }}</p>
+              <p class="text-sm text-gray-500">{{ tramite()!.entidad }}</p>
             </div>
             <app-status-badge [estado]="tramite()!.estado" />
           </div>
@@ -32,8 +32,7 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge.compo
             <div><p class="text-xs text-gray-400">Creado</p><p class="font-medium">{{ tramite()!.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p></div>
             <div><p class="text-xs text-gray-400">Actualizado</p><p class="font-medium">{{ tramite()!.actualizadoEn | date:'dd/MM/yyyy HH:mm' }}</p></div>
             <div><p class="text-xs text-gray-400">Tiempo estimado</p><p class="font-medium">{{ tramite()!.diasEstimado }} días hábiles</p></div>
-            <div><p class="text-xs text-gray-400">Costo</p>
-              <p class="font-medium">{{ tramite()!.costoEstimado ? ('$' + tramite()!.costoEstimado.toLocaleString('es-CO')) : 'Gratuito' }}</p></div>
+            <div><p class="text-xs text-gray-400">Entidad</p><p class="font-medium">{{ tramite()!.entidad }}</p></div>
             @if (tramite()!.funcionarioNombre) {
               <div class="col-span-2"><p class="text-xs text-gray-400">Funcionario</p><p class="font-medium">{{ tramite()!.funcionarioNombre }}</p></div>
             }

@@ -7,7 +7,6 @@ import { TramiteRequest, TramiteResponse, PaginatedTramites } from '../models/mo
 @Injectable({ providedIn: 'root' })
 export class TramiteService {
   private base = `${environment.apiUrl}/tramites`;
-  private funcBase = `${environment.apiUrl}/funcionario/tramites`;
 
   constructor(private http: HttpClient) {}
 
@@ -29,25 +28,21 @@ export class TramiteService {
     return this.http.patch<TramiteResponse>(`${this.base}/${id}/enviar`, {});
   }
 
-  cancelar(id: number): Observable<TramiteResponse> {
-    return this.http.patch<TramiteResponse>(`${this.base}/${id}/cancelar`, {});
-  }
-
-  // Funcionario
+  // Funcionario / Admin
   listarPendientes(page = 0, size = 10): Observable<PaginatedTramites> {
     const params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<PaginatedTramites>(this.funcBase, { params });
+    return this.http.get<PaginatedTramites>(`${this.base}/pendientes`, { params });
   }
 
   revisar(id: number): Observable<TramiteResponse> {
-    return this.http.patch<TramiteResponse>(`${this.funcBase}/${id}/revisar`, {});
+    return this.http.patch<TramiteResponse>(`${this.base}/${id}/revisar`, {});
   }
 
   aprobar(id: number, comentario?: string): Observable<TramiteResponse> {
-    return this.http.patch<TramiteResponse>(`${this.funcBase}/${id}/aprobar`, { comentario });
+    return this.http.patch<TramiteResponse>(`${this.base}/${id}/aprobar`, { comentario });
   }
 
   rechazar(id: number, comentario: string): Observable<TramiteResponse> {
-    return this.http.patch<TramiteResponse>(`${this.funcBase}/${id}/rechazar`, { comentario });
+    return this.http.patch<TramiteResponse>(`${this.base}/${id}/rechazar`, { comentario });
   }
 }

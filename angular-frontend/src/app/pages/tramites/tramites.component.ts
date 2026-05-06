@@ -62,7 +62,7 @@ const ESTADOS = [
                 </div>
                 <app-status-badge [estado]="t.estado" />
               </div>
-              <p class="text-xs text-gray-400">{{ t.entidadCodigo }} · {{ t.creadoEn | date:'dd MMM yyyy' }}</p>
+              <p class="text-xs text-gray-400">{{ t.entidad }} · {{ t.creadoEn | date:'dd MMM yyyy' }}</p>
             </a>
           }
         </div>

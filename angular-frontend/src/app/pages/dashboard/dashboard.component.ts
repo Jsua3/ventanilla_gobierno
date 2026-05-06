@@ -49,13 +49,10 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge.compo
                 <div class="flex items-start justify-between gap-2">
                   <div class="min-w-0">
                     <p class="font-semibold text-sm text-gray-900">{{ tipo.nombre }}</p>
-                    <p class="text-xs text-gray-500 mt-0.5">{{ tipo.entidad?.codigo }}</p>
+                    <p class="text-xs text-gray-500 mt-0.5">{{ tipo.entidad }}</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-xs text-gray-400">{{ tipo.diasEstimado }}d est.</p>
-                    <p class="text-xs font-semibold" [class]="tipo.costoEstimado ? 'text-orange-600' : 'text-green-600'">
-                      {{ tipo.costoEstimado ? ('$' + (tipo.costoEstimado | number)) : 'Gratuito' }}
-                    </p>
+                    <p class="text-xs text-gray-400">{{ tipo.diasEstimado }} días</p>
                   </div>
                 </div>
               </a>
@@ -87,7 +84,7 @@ import { StatusBadgeComponent } from '../../shared/components/status-badge.compo
                   </div>
                   <app-status-badge [estado]="t.estado" />
                 </div>
-                <p class="text-xs text-gray-400 mt-2">{{ t.entidadCodigo }} · {{ t.creadoEn | date:'dd/MM/yyyy' }}</p>
+                <p class="text-xs text-gray-400 mt-2">{{ t.entidad }} · {{ t.creadoEn | date:'dd/MM/yyyy' }}</p>
               </a>
             }
           </div>

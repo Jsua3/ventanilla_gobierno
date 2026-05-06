@@ -6,37 +6,41 @@ services:
     container_name: ventanillagov_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root123}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-ventanilla2025}
       MYSQL_DATABASE: ventanillagov
+      MYSQL_USER: ventanilla
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-ventanilla2025}
     ports:
       - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uroot', '-p${DB_PASSWORD:-root123}']
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       interval: 10s
       timeout: 20s
       retries: 10
+    networks:
+      - ventanilla_net
 
   backend:
     build:
-      context: ./springboot
+      context: ./backend
       dockerfile: Dockerfile
     container_name: ventanillagov_backend
     restart: unless-stopped
     environment:
-      DB_URL: jdbc:mysql://mysql:3306/ventanillagov?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true
-      DB_USER: root
-      DB_PASSWORD: ${DB_PASSWORD:-root123}
-      JWT_SECRET: ${JWT_SECRET:-ventanillagov_super_secret_key_2025_colombia_tramites}
-      JWT_EXPIRATION: 86400000
-      PORT: 8080
-      CORS_ORIGINS: http://localhost,http://frontend
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ventanillagov?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ventanilla
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-ventanilla2025}
+      JWT_SECRET: ${JWT_SECRET:-mySecretKeyForProductionUseAtLeast32CharsLong!}
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - '8080:8080'
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - ventanilla_net
 
   frontend:
     build:
@@ -48,6 +52,12 @@ services:
       - '80:80'
     depends_on:
       - backend
+    networks:
+      - ventanilla_net
 
 volumes:
   mysql_data:
+
+networks:
+  ventanilla_net:
+    driver: bridge

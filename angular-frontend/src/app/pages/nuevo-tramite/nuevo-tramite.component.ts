@@ -30,16 +30,10 @@ import { TipoTramite } from '../../core/models/models';
               <input type="radio" formControlName="tipoTramiteId" [value]="tipo.id" class="mt-1 accent-blue-600"/>
               <div class="flex-1 min-w-0">
                 <p class="font-semibold text-sm text-gray-900">{{ tipo.nombre }}</p>
-                <p class="text-xs text-gray-500">{{ tipo.entidad?.nombre }}</p>
+                <p class="text-xs text-gray-500">{{ tipo.entidad }}</p>
                 <div class="flex items-center gap-3 mt-1 text-xs text-gray-400">
                   <span>⏱ {{ tipo.diasEstimado }} días est.</span>
-                  <span [class]="tipo.costoEstimado ? 'text-orange-600' : 'text-green-600'" class="font-medium">
-                    {{ tipo.costoEstimado ? ('$' + tipo.costoEstimado.toLocaleString('es-CO')) : 'Gratuito' }}
-                  </span>
                 </div>
-                @if (tipo.documentosRequeridos) {
-                  <p class="text-xs text-gray-400 mt-1">📎 {{ tipo.documentosRequeridos }}</p>
-                }
               </div>
             </label>
           }

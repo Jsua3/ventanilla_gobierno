@@ -33,10 +33,10 @@ import { AuthService } from '../../core/services/auth.service';
 
           <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Número de Cédula</label>
-              <input formControlName="cedula" type="text" placeholder="222222222" class="input"/>
-              @if (form.get('cedula')?.invalid && form.get('cedula')?.touched) {
-                <p class="text-red-500 text-xs mt-1">La cédula es requerida</p>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+              <input formControlName="email" type="email" placeholder="user@gov.co" class="input"/>
+              @if (form.get('email')?.invalid && form.get('email')?.touched) {
+                <p class="text-red-500 text-xs mt-1">Email válido requerido</p>
               }
             </div>
             <div>
@@ -53,14 +53,14 @@ import { AuthService } from '../../core/services/auth.service';
 
           <p class="text-center text-sm text-gray-600 mt-4">
             ¿No tienes cuenta?
-            <a routerLink="/register" class="text-blue-600 hover:text-blue-700 font-medium">Regístrate aquí</a>
+            <a routerLink="/registro" class="text-blue-600 hover:text-blue-700 font-medium">Regístrate aquí</a>
           </p>
 
           <div class="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-500">
             <p class="font-semibold mb-1">Credenciales de prueba:</p>
-            <p>Ciudadano: <span class="font-mono">222222222 / user123</span></p>
-            <p>Funcionario: <span class="font-mono">111111111 / func123</span></p>
-            <p>Admin: <span class="font-mono">000000000 / admin123</span></p>
+            <p>Ciudadano: <span class="font-mono">user@gov.co / user123</span></p>
+            <p>Funcionario: <span class="font-mono">func@gov.co / func123</span></p>
+            <p>Admin: <span class="font-mono">admin@gov.co / admin123</span></p>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class LoginComponent {
   form = this.fb.group({
-    cedula: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
   loading = false;

@@ -13,7 +13,7 @@ export interface AuthResponse {
 }
 
 export interface LoginRequest {
-  cedula: string;
+  email: string;
   password: string;
 }
 
@@ -25,20 +25,11 @@ export interface RegisterRequest {
   password: string;
 }
 
-export interface Entidad {
-  id: number;
-  nombre: string;
-  codigo: string;
-  descripcion: string;
-}
-
 export interface TipoTramite {
   id: number;
   nombre: string;
   descripcion: string;
-  entidad: Entidad;
-  documentosRequeridos: string;
-  costoEstimado: number | null;
+  entidad: string;
   diasEstimado: number;
   activo: boolean;
 }
@@ -58,9 +49,7 @@ export interface TramiteResponse {
   actualizadoEn: string;
   tipoTramiteId: number;
   tipoTramiteNombre: string;
-  entidadNombre: string;
-  entidadCodigo: string;
-  costoEstimado: number;
+  entidad: string;
   diasEstimado: number;
   ciudadanoId: number;
   ciudadanoNombre: string;
