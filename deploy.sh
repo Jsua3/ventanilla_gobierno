@@ -6,7 +6,7 @@ echo "  VentanillaGov - Deploy en AWS EC2"
 echo "========================================"
 
 REPO="https://github.com/Jsua3/ventanilla_gobierno.git"
-APP_DIR="/home/ec2-user/ventanillagov"
+APP_DIR="/home/ubuntu/ventanillagov"
 
 # ── 1. Swap (necesario para build Angular en t3.micro) ──────────────────────
 if [ ! -f /swapfile ]; then
@@ -23,20 +23,18 @@ fi
 # ── 2. Instalar Docker ───────────────────────────────────────────────────────
 if ! command -v docker &>/dev/null; then
   echo "[2/6] Instalando Docker..."
-  sudo dnf update -y -q
-  sudo dnf install -y docker git
+  sudo apt-get update -y
+  sudo apt-get install -y docker.io docker-compose-plugin git curl
   sudo systemctl enable --now docker
-  sudo usermod -aG docker ec2-user
-  echo "Docker instalado. Aplicando permisos..."
-  newgrp docker
+  sudo usermod -aG docker ubuntu
 else
   echo "[2/6] Docker ya instalado, OK"
 fi
 
-# ── 3. Instalar Docker Compose ───────────────────────────────────────────────
-if ! docker compose version &>/dev/null 2>&1; then
+# ── 3. Verificar Docker Compose ──────────────────────────────────────────────
+if ! sudo docker compose version &>/dev/null 2>&1; then
   echo "[3/6] Instalando Docker Compose plugin..."
-  DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+  DOCKER_CONFIG=/root/.docker
   mkdir -p $DOCKER_CONFIG/cli-plugins
   curl -SL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64" \
     -o $DOCKER_CONFIG/cli-plugins/docker-compose
@@ -70,6 +68,7 @@ fi
 # ── 6. Levantar servicios ────────────────────────────────────────────────────
 echo "[6/6] Levantando servicios con Docker Compose..."
 echo "  (El build del frontend Angular puede tomar 10-15 minutos)"
+cd "$APP_DIR"
 sudo docker compose up -d --build
 
 echo ""
@@ -85,6 +84,6 @@ echo "    Admin:       admin@gov.co / admin123"
 echo "    Funcionario: func@gov.co  / func123"
 echo "    Ciudadano:   user@gov.co  / user123"
 echo ""
-echo "  Ver logs:    sudo docker compose logs -f"
-echo "  Ver estado:  sudo docker compose ps"
+echo "  Ver logs:    sudo docker compose -f $APP_DIR/docker-compose.yml logs -f"
+echo "  Ver estado:  sudo docker compose -f $APP_DIR/docker-compose.yml ps"
 echo "========================================"
