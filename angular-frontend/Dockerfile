@@ -1,9 +1,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --legacy-peer-deps && chmod -R 755 node_modules/.bin
+RUN npm install --legacy-peer-deps
 COPY . .
-RUN npm run build -- --configuration production
+RUN node node_modules/@angular/cli/bin/ng build --configuration production
 
 FROM nginx:alpine
 COPY --from=builder /app/dist/ventanillagov-frontend/browser /usr/share/nginx/html
